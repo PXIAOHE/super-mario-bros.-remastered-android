@@ -80,11 +80,15 @@ jobs:
 
       - name: Export APK
         run: |
-          set -o pipefail
           mkdir -p build
-          godot --headless --verbose --export-debug "Android" "build/${EXPORT_NAME}.apk" 2>&1 | tail -160
+          godot --headless --verbose --export-debug "Android" "build/${EXPORT_NAME}.apk" > /tmp/export.log 2>&1 || true
+          echo "=========== ERROR LINES ==========="
+          grep -inE 'error|failed|exception|not found|missing' /tmp/export.log | head -60 || true
+          echo "=========== TAIL ==========="
+          tail -120 /tmp/export.log || true
           echo "---- build dir ----"
           ls -la build/ || true
+          test -f "build/${EXPORT_NAME}.apk"
 
       - name: Verify APK
         run: |
