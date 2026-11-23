@@ -327,31 +327,32 @@ func _input(event) -> void:
 
 # ---------------------------------------------------------------------- UI
 
-## 给游戏自带字体挂上中文字体回退：像素字体只有 ASCII，缺字时自动落到 CJK 子集。
+## 把游戏主题里所有字体项换成打包的中文字体，并设置 ThemeDB 兜底字体。
+## 注意：绝不能对游戏自带的位图字体设置 FontFile.fallbacks —— 那会让位图字体丢字形，
+## 整个界面变成「十六进制方框」。只能整体替换主题里的字体资源。
 func _install_cjk_fallback() -> void:
 	var cjk = load(FONT_PATH)
 	if not (cjk is Font):
 		return
-	var used := {}
-	for setting_key in ["gui/theme/custom_font", "gui/theme/custom"]:
-		var path = ProjectSettings.get_setting(setting_key, "")
-		if not (path is String) or path == "":
-			continue
-		var res = load(path)
-		if res is Theme:
-			_attach_fallback(res.default_font, cjk, used)
-		elif res is FontFile:
-			_attach_fallback(res, cjk, used)
 	ThemeDB.fallback_font = cjk
-
-
-func _attach_fallback(font, cjk: Font, used: Dictionary) -> void:
-	if not (font is FontFile) or used.has(font):
+	var path = ProjectSettings.get_setting("gui/theme/custom", "")
+	if not (path is String) or path == "":
 		return
-	var arr: Array[Font] = []
-	arr.append(cjk)
-	font.fallbacks = arr
-	used[font] = true
+	var th = load(path)
+	if th is Theme:
+		_replace_theme_fonts(th, cjk)
+
+
+func _replace_theme_fonts(th: Theme, cjk: Font) -> void:
+	var replaced := false
+	for prop in th.get_property_list():
+		var n: String = str(prop.get("name", ""))
+		if n.find("/fonts/") == -1:
+			continue
+		th.set(n, cjk)
+		replaced = true
+	if not replaced:
+		th.default_font = cjk
 
 
 func _fs(x: int) -> int:
