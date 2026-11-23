@@ -6,7 +6,7 @@ on:
     branches: [ cheat ]
 
 env:
-  GODOT_VERSION: 4.4.stable
+  GODOT_VERSION: "4.4"
   EXPORT_NAME: smb1r-cheat
 
 jobs:
@@ -23,24 +23,40 @@ jobs:
 
       - name: Probe environment
         run: |
-          echo "HOME=$HOME"
+          echo "HOME=$HOME"; echo "ANDROID_HOME=$ANDROID_HOME"
           godot --version || true
-          env | grep -iE 'android|java|gradle|godot' || true
           ls -la /root/.local/share/godot/export_templates/ || true
-          ls -la ~/.local/share/godot/export_templates/ || true
-          ls -d "$ANDROID_HOME" "$ANDROID_SDK_ROOT" 2>/dev/null || true
-          java -version || true
+          ls -la "/root/.local/share/godot/export_templates/${GODOT_VERSION}.stable" || true
+          ls "$ANDROID_HOME" || true
+          ls "$ANDROID_HOME/build-tools" 2>/dev/null || true
+          ls "$ANDROID_HOME/platforms" 2>/dev/null || true
+          ls /usr/lib/jvm/ || true
 
       - name: Setup export templates
         run: |
           mkdir -p "$HOME/.local/share/godot/export_templates"
-          for d in /root/.local/share/godot/export_templates /usr/local/share/godot/export_templates /usr/share/godot/export_templates; do
-            if [ -d "$d/${GODOT_VERSION}.stable" ] && [ "$d" != "$HOME/.local/share/godot/export_templates" ]; then
-              ln -sfn "$d/${GODOT_VERSION}.stable" "$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable"
-              echo "linked from $d"
-            fi
-          done
-          ls -la "$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable" | head -20
+          TPLDIR="/root/.local/share/godot/export_templates/${GODOT_VERSION}.stable"
+          ln -sfn "$TPLDIR" "$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable"
+          ls -la "$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable" | head -30
+
+      - name: Write editor settings
+        run: |
+          mkdir -p "$HOME/.config/godot"
+          cat > "$HOME/.config/godot/editor_settings-4.4.tres" <<EOF
+          [gd_resource type="EditorSettings" format=3]
+
+          [resource]
+          export/android/android_sdk_path = "$ANDROID_HOME"
+          export/android/java_sdk_path = "/usr/lib/jvm/java-17-openjdk-amd64"
+          export/android/debug_keystore = "$HOME/.android/debug.keystore"
+          export/android/debug_keystore_user = "androiddebugkey"
+          export/android/debug_keystore_pass = "android"
+          export/android/force_system_user = false
+          export/android/shutdown_adb_on_exit = true
+          network/debug/remote_host = "127.0.0.1"
+          network/debug/remote_port = 6007
+          EOF
+          cat "$HOME/.config/godot/editor_settings-4.4.tres"
 
       - name: Install Android build template
         run: |
@@ -49,6 +65,7 @@ jobs:
           mkdir -p android/build
           unzip -q -o "$TPL" -d android/build
           touch android/build/.gdignore
+          test -f android/build/build.gradle && echo "build.gradle OK"
           find android/build -maxdepth 1 | head -30
 
       - name: Debug keystore
@@ -63,18 +80,19 @@ jobs:
 
       - name: Export APK
         run: |
+          set -o pipefail
           mkdir -p build
-          godot --headless --verbose --export-debug "Android" "build/${EXPORT_NAME}.apk" 2>&1 | tail -120
+          godot --headless --verbose --export-debug "Android" "build/${EXPORT_NAME}.apk" 2>&1 | tail -160
+          echo "---- build dir ----"
           ls -la build/ || true
 
       - name: Verify APK
         run: |
-          set -e
-          ls -la build/
-          test -f "build/${EXPORT_NAME}.apk"
           APK="build/${EXPORT_NAME}.apk"
-          "$ANDROID_HOME/build-tools/"*/apksigner verify --print-certs "$APK" || true
-          echo "--- 关键条目 ---"
+          test -f "$APK"
+          ls -la "$APK"
+          APKSIGNER=$(ls "$ANDROID_HOME"/build-tools/*/apksigner 2>/dev/null | tail -1)
+          [ -n "$APKSIGNER" ] && "$APKSIGNER" verify --print-certs "$APK" || true
           unzip -l "$APK" | grep -E 'libgodot_android|CheatManager|project.binary' | head -10
 
       - name: Upload APK
