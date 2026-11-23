@@ -35,7 +35,12 @@ jobs:
           DEBIAN_FRONTEND=noninteractive apt-get install -y -qq curl unzip ca-certificates software-properties-common >/dev/null 2>&1 || true
           add-apt-repository -y ppa:ubuntu-toolchain-r/test >/dev/null 2>&1 || true
           apt-get update -qq || true
-          DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --only-upgrade libstdc++6 || true
+          for i in 1 2 3 4 5 6; do
+            if DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --only-upgrade libstdc++6; then
+              echo "libstdc++ upgraded on attempt $i"; break
+            fi
+            echo "attempt $i failed, retrying in 15s"; sleep 15; apt-get update -qq || true
+          done
           command -v curl && curl --version | head -1
           N=$(grep -ac 'GLIBCXX_3.4.32' /usr/lib/x86_64-linux-gnu/libstdc++.so.6 || true)
           echo "GLIBCXX_3.4.32 present: $N"
