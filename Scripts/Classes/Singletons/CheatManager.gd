@@ -360,7 +360,8 @@ func _input(event) -> void:
 	_drag_moved += (target - _toggle.position).length()
 	_toggle.position = target
 	if _panel != null:
-		_panel.position = Vector2(target.x, target.y + _toggle.size.y + 6 * _ui)
+		var px: float = clampf(target.x + _toggle.size.x - PANEL_W * _ui, 0.0, maxf(0.0, vs.x - PANEL_W * _ui))
+		_panel.position = Vector2(px, target.y + _toggle.size.y + 6 * _ui)
 
 
 # ---------------------------------------------------------------------- UI
@@ -389,7 +390,10 @@ func _build_ui() -> void:
 	_toggle.text = "金手指"
 	_toggle.theme = _theme
 	_toggle.focus_mode = Control.FOCUS_NONE
-	_toggle.position = Vector2(4, 4) * _ui
+	# 默认放右侧中部：左上角会盖住存档名/金币 HUD
+	var bx: float = vs.x - (TOGGLE_W + 6) * _ui
+	var by: float = vs.y * 0.30
+	_toggle.position = Vector2(bx, by)
 	_toggle.custom_minimum_size = Vector2(TOGGLE_W, TOGGLE_H) * _ui
 	_toggle.size = Vector2(TOGGLE_W, TOGGLE_H) * _ui
 	_toggle.modulate = Color(1, 1, 1, 0.72)
@@ -407,7 +411,7 @@ func _build_ui() -> void:
 	panel_bg.set_border_width_all(maxi(1, int(1 * _ui)))
 	panel_bg.border_color = Color(0.75, 0.75, 0.8, 0.9)
 	_panel.add_theme_stylebox_override("panel", panel_bg)
-	_panel.position = Vector2(4, TOGGLE_H + 8) * _ui
+	_panel.position = Vector2(bx + TOGGLE_W * _ui - PANEL_W * _ui, by + TOGGLE_H * _ui + 6 * _ui)
 	root.add_child(_panel)
 
 	_scroll = ScrollContainer.new()
