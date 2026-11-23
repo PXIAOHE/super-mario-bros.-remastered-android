@@ -85,7 +85,7 @@ func _fs(x: int) -> int:
 
 func _build_ui() -> void:
 	var vs := get_viewport().get_visible_rect().size
-	_ui = clampf(vs.y / 720.0, 0.75, 2.5)
+	_ui = clampf(vs.y / 1080.0, 0.6, 1.4)
 
 	var root := Control.new()
 	root.name = "CheatRoot"
@@ -123,18 +123,18 @@ func _build_ui() -> void:
 	title.text = "CHEATS"
 	title.add_theme_font_size_override("font_size", _fs(FONT_BASE + 2))
 	vb.add_child(title)
+	vb.add_child(_make_button("CLOSE", func() -> void: _panel.visible = false))
 
-	vb.add_child(_make_check("GOD - no damage", func(on: bool) -> void: god_mode = on))
+	vb.add_child(_make_check("GOD MODE", func(on: bool) -> void: god_mode = on))
 	vb.add_child(_make_check("INF LIVES", func(on: bool) -> void: inf_lives = on))
 	vb.add_child(_make_check("FREEZE TIME", func(on: bool) -> void: _on_freeze_toggled(on)))
-	vb.add_child(_make_check("SUPER JUMP x2", func(on: bool) -> void: super_jump = on))
-	vb.add_child(_make_check("FAST RUN x2", func(on: bool) -> void: fast_run = on))
-	vb.add_child(_make_check("STAR - always", func(on: bool) -> void: star_mode = on))
+	vb.add_child(_make_check("SUPER JUMP", func(on: bool) -> void: super_jump = on))
+	vb.add_child(_make_check("FAST RUN", func(on: bool) -> void: fast_run = on))
+	vb.add_child(_make_check("STAR ALWAYS", func(on: bool) -> void: star_mode = on))
 
 	vb.add_child(_make_button("+99 COINS", func() -> void: give_coins()))
-	vb.add_child(_make_button("POWER: FIRE", func() -> void: set_power("Fire")))
-	vb.add_child(_make_button("POWER: BIG", func() -> void: set_power("Big")))
-	vb.add_child(_make_button("CLOSE", func() -> void: _panel.visible = false))
+	vb.add_child(_make_button("POWER FIRE", func() -> void: set_power("Fire")))
+	vb.add_child(_make_button("POWER BIG", func() -> void: set_power("Big")))
 
 
 func _make_check(text: String, cb: Callable) -> CheckButton:
@@ -142,6 +142,7 @@ func _make_check(text: String, cb: Callable) -> CheckButton:
 	c.text = text
 	c.focus_mode = Control.FOCUS_NONE
 	c.add_theme_font_size_override("font_size", _fs(FONT_BASE))
+	c.add_theme_constant_override("icon_max_width", _fs(18))
 	c.toggled.connect(cb)
 	return c
 
@@ -151,6 +152,7 @@ func _make_button(text: String, cb: Callable) -> Button:
 	b.text = text
 	b.focus_mode = Control.FOCUS_NONE
 	b.add_theme_font_size_override("font_size", _fs(FONT_BASE))
+	b.add_theme_constant_override("icon_max_width", _fs(18))
 	b.pressed.connect(cb)
 	return b
 
