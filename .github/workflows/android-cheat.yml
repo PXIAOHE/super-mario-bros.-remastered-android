@@ -82,11 +82,28 @@ jobs:
         run: |
           TPL="$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable/android_source.zip"
           ls -la "$TPL"
-          rm -rf android/build && mkdir -p android/build
-          unzip -q -o "$TPL" -d android/build
+          rm -rf android
+          set +e
+          godot --headless --path . --install-android-build-template > /tmp/tpl_install.log 2>&1
+          echo "installer exit=$?"
+          tail -15 /tmp/tpl_install.log
+          set -e
+          if [ ! -f android/build/build.gradle ]; then
+            echo "--- fallback: manual extract ---"
+            mkdir -p android/build
+            unzip -q -o "$TPL" -d android/build
+          fi
           touch android/build/.gdignore
-          echo "--- config.gradle ---"
-          grep -E 'version_major|version_minor|version_patch|version_status|compile_sdk|target_sdk|min_sdk' android/build/config.gradle || true
+          echo "--- 版本线索 ---"
+          ls -la android/build | head -25
+          for f in android/build/.build_version android/.build_version; do
+            if [ -f "$f" ]; then echo "$f => $(cat "$f")"; else echo "$f => (缺失)"; fi
+          done
+          grep -rn "4\.5\.beta3" android/build 2>/dev/null | head -5 || true
+          echo "--- 强制版本 ---"
+          printf '4.4.stable' > android/build/.build_version
+          printf '4.4.stable' > android/.build_version
+          echo "forced => $(cat android/build/.build_version)"
           test -f android/build/build.gradle
 
       - name: Debug keystore
