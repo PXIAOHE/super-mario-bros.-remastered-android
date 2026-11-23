@@ -126,7 +126,7 @@ jobs:
       - name: Export APK
         run: |
           mkdir -p build
-          godot --headless --verbose --export-debug "Android" "build/${EXPORT_NAME}.apk" > /tmp/export.log 2>&1 || true
+          godot --headless --verbose --export-release "Android" "build/${EXPORT_NAME}.apk" > /tmp/export.log 2>&1 || true
           echo "=========== ERROR LINES ==========="
           grep -inE 'error|failed|exception|not found|missing|cannot' /tmp/export.log | head -60 || true
           echo "=========== TAIL ==========="
