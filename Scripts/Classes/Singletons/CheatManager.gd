@@ -14,7 +14,7 @@ extends CanvasLayer
 
 const SPEED_MULTIPLIER := 2.0
 const MAX_LIVES := 99
-const FONT_BASE := 13
+const FONT_BASE := 15
 const TOGGLE_W := 108
 const TOGGLE_H := 32
 const PANEL_W := 268
@@ -24,7 +24,7 @@ const BOO_LEVELS_LEN := 8
 const WORLDS_PER_CAMPAIGN := {"SMB1": 8, "SMBLL": 13, "SMBS": 8, "SMBANN": 8}
 const LEVELS_PER_WORLD := 4
 const SLOW_TIME_SCALE := 0.5
-const FONT_PATH := "res://Scripts/Classes/Singletons/CheatFont.otf"
+const FONT_PATH := "res://Scripts/Classes/Singletons/PixelFont.ttf"
 
 var jump_multiplier := 2.0
 
@@ -41,6 +41,7 @@ var freeze_enemies := false
 # --- 不持久化 ---
 var auto_run := false
 var slow_motion := false
+var hi_res := false
 
 var _player = null
 var _panel: PanelContainer = null
@@ -214,6 +215,22 @@ func set_slow_motion(on: bool) -> void:
 	Engine.time_scale = SLOW_TIME_SCALE if on else 1.0
 	if _scale_btn != null:
 		_scale_btn.text = "速度：慢速" if on else "速度：正常"
+
+
+# ---- 高清画面：等价于游戏设置里的 Size=铺满屏幕 ----
+
+func set_hi_res(on: bool) -> void:
+	hi_res = on
+	var cc = get_tree().root.get_node_or_null("Wrapper/CenterContainer")
+	var vp = get_tree().root.get_node_or_null("Wrapper/CenterContainer/SubViewportContainer/SubViewport")
+	var vpc = get_tree().root.get_node_or_null("Wrapper/CenterContainer/SubViewportContainer")
+	if cc == null or vp == null:
+		return
+	var w: float = floor(cc.size.x) if on else 256.0
+	vp.set_deferred("size", Vector2(w, vp.size.y))
+	if vpc != null:
+		vpc.set_deferred("size", Vector2(w, vpc.size.y))
+	Settings.file.video.size = 2 if on else 0
 
 
 # ---- 跳关 ----
@@ -417,6 +434,7 @@ func _build_ui() -> void:
 
 	# --- 临时开关 ---
 	vb.add_child(_make_check("自动跑", auto_run, func(on: bool) -> void: set_auto_run(on)))
+	vb.add_child(_make_check("高清画面", hi_res, func(on: bool) -> void: set_hi_res(on)))
 	_scale_btn = _make_button("速度：正常", func() -> void: set_slow_motion(not slow_motion))
 	vb.add_child(_scale_btn)
 	_sep(vb)
