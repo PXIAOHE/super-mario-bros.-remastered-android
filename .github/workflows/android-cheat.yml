@@ -78,6 +78,17 @@ jobs:
           fi
           ls -la "$HOME/.android/debug.keystore"
 
+      - name: Fix libstdc++ for GDExtension
+        run: |
+          apt-get update -qq || true
+          DEBIAN_FRONTEND=noninteractive apt-get install -y -qq software-properties-common >/dev/null 2>&1 || true
+          add-apt-repository -y ppa:ubuntu-toolchain-r/test >/dev/null 2>&1 || true
+          apt-get update -qq || true
+          DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --only-upgrade libstdc++6 || true
+          N=$(strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep -c 'GLIBCXX_3.4.32')
+          echo "GLIBCXX_3.4.32 present: $N"
+          test "$N" -ge 1
+
       - name: Import resources
         run: |
           godot --headless --import > /tmp/import.log 2>&1 || true
