@@ -3,13 +3,16 @@ extends CanvasLayer
 ## Registered as an autoload singleton named CheatManager in project.godot.
 ## Builds its whole UI in code so no scene files need editing.
 ## Player.gd calls tick_player() every physics frame and damage() checks god_mode.
+## Deliberately duck-typed: no static reference to the Player class, so there is
+## no autoload <-> class_name dependency cycle at compile time.
 
-var jump_multiplier := 2.0
 const SPEED_MULTIPLIER := 2.0
 const MAX_LIVES := 99
 const FONT_BASE := 14
 const TOGGLE_W := 104
 const TOGGLE_H := 34
+
+var jump_multiplier := 2.0     # 超级跳倍率
 
 var god_mode := false          # 免疫伤害（不掉状态、不死亡）
 var inf_lives := false         # 无限命
@@ -18,7 +21,7 @@ var super_jump := false        # 超级跳
 var fast_run := false          # 加速跑
 var star_mode := false         # 无敌星常驻
 
-var _player: Player = null
+var _player = null
 var _panel: PanelContainer = null
 var _toggle: Button = null
 var _ui := 1.0
@@ -40,7 +43,7 @@ func _process(_delta: float) -> void:
 
 
 ## Called from Player._physics_process() every physics frame.
-func tick_player(p: Player) -> void:
+func tick_player(p) -> void:
 	if not is_instance_valid(p):
 		return
 	_player = p
@@ -52,11 +55,11 @@ func tick_player(p: Player) -> void:
 	p.RUN_SPEED = float(base["run"]) * mult
 
 
-func _current_player() -> Player:
+func _current_player():
 	if is_instance_valid(_player):
 		return _player
-	for n in get_tree().root.find_children("*", "", true, false):
-		if n is Player:
+	for n in get_tree().root.find_children("*", "CharacterBody2D", true, false):
+		if n.has_method("get_power_up"):
 			_player = n
 			return n
 	return null
@@ -69,7 +72,7 @@ func give_coins() -> void:
 
 
 func set_power(power_name: String) -> void:
-	var p := _current_player()
+	var p = _current_player()
 	if p != null:
 		p.get_power_up(power_name)
 
