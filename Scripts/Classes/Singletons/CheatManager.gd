@@ -2,12 +2,13 @@ extends CanvasLayer
 ## 金手指 / Cheat panel  (autoload singleton: CheatManager)
 ##
 ## Design notes:
-## - Whole UI built in code; no .tscn edits at all.
-## - Duck typed on purpose: no `Player` type hints anywhere, so the autoload
-##   never creates a compile-time dependency cycle with `class_name Player`.
+## - Whole UI built in code; no .tscn edits.
+## - Duck typed on purpose: no `Player` type hints, so the autoload never forms a
+##   compile-time dependency cycle with `class_name Player` (Player.gd -> us only).
 ## - Own compact Theme: the game's bitmap theme makes every row huge.
-## - UPPERCASE labels only: the project's bitmap font has no lowercase glyphs.
-## - Toggle state persisted to user://cheats.cfg (survives app restarts).
+## - UPPERCASE labels only: safest for the project's bitmap font.
+## - Combat toggles persist to user://cheats.cfg. Slow-motion / auto-run do NOT
+##   persist on purpose (a stale 0.5x game would be confusing).
 ##
 ## Player.gd hooks:
 ##   _physics_process() -> CheatManager.tick_player(self)
@@ -21,29 +22,45 @@ const TOGGLE_W := 96
 const TOGGLE_H := 30
 const PANEL_W := 240
 const CFG_PATH := "user://cheats.cfg"
-const LEVELS_VISITED_LEN := 52      # SaveManager.SAVE_TEMPLATE["LevelsVisited"] 的长度
+const LEVELS_VISITED_LEN := 52      # SaveManager.SAVE_TEMPLATE["LevelsVisited"] 长度
 const BOO_LEVELS_LEN := 8
+const WORLDS_PER_CAMPAIGN := {"SMB1": 8, "SMBLL": 13, "SMBS": 8, "SMBANN": 8}
+const LEVELS_PER_WORLD := 4
+const SLOW_TIME_SCALE := 0.5
 
 var jump_multiplier := 2.0
 
-var god_mode := false          # 免疫伤害
-var inf_lives := false         # 无限命
-var freeze_time := false       # 时间冻结
-var super_jump := false        # 超级跳
-var fast_run := false          # 加速跑
-var star_mode := false         # 无敌星常驻
-var noclip := false            # 穿墙
-var freeze_enemies := false    # 敌人冻结
+# --- 持久化开关 ---
+var god_mode := false
+var inf_lives := false
+var freeze_time := false
+var super_jump := false
+var fast_run := false
+var star_mode := false
+var noclip := false
+var freeze_enemies := false
+
+# --- 不持久化 ---
+var auto_run := false
+var slow_motion := false
 
 var _player = null
 var _panel: PanelContainer = null
 var _toggle: Button = null
 var _theme: Theme = null
 var _unlock_btn: Button = null
+var _scale_btn: Button = null
 var _unlock_armed := false
 var _ui := 1.0
 var _cfg := ConfigFile.new()
 var _enemy_tick := 0.0
+var _waypoint = null
+var _waypoint_tag := ""
+
+# 拖动 CHEAT 按钮
+var _dragging := false
+var _drag_moved := 0.0
+var _drag_offset := Vector2.ZERO
 
 
 func _ready() -> void:
@@ -153,10 +170,76 @@ func set_noclip(on: bool) -> void:
 			sm.transition_to("NoClip")
 	elif sm.is_state("NoClip"):
 		sm.transition_to("Normal")
-		p.can_hurt = true   # NoClip.exit() 里上游把 can_hurt 写成 false
+		p.can_hurt = true   # 上游 NoClip.exit() 把 can_hurt 写成 false
 
 
-## 解锁全部关卡：直接改存档 JSON 的 LevelsVisited / ClearedBooLevels。
+# ---- 存点 / 回点 ----
+
+func set_waypoint() -> void:
+	var p = _current_player()
+	if p == null:
+		return
+	_waypoint = p.global_position
+	_waypoint_tag = _level_tag()
+
+
+func goto_waypoint() -> void:
+	var p = _current_player()
+	if p == null or _waypoint == null:
+		return
+	if _waypoint_tag != _level_tag():
+		return
+	p.teleport_player(_waypoint)
+
+
+func _level_tag() -> String:
+	return str(Global.current_campaign) + "/" + str(Global.world_num) + "-" + str(Global.level_num)
+
+
+# ---- 自动跑 ----
+
+func set_auto_run(on: bool) -> void:
+	auto_run = on
+	if on:
+		Input.action_press("move_right_0")
+		Input.action_press("run_0")
+	else:
+		Input.action_release("move_right_0")
+		Input.action_release("run_0")
+
+
+# ---- 慢动作 ----
+
+func set_slow_motion(on: bool) -> void:
+	slow_motion = on
+	Engine.time_scale = SLOW_TIME_SCALE if on else 1.0
+	if _scale_btn != null:
+		_scale_btn.text = "SPEED SLOW" if on else "SPEED NORMAL"
+
+
+# ---- 关卡跳转 ----
+
+func warp_level(delta_world: int, delta_level: int) -> void:
+	if Global.current_game_mode != Global.GameMode.CAMPAIGN:
+		return
+	var world_max: int = int(WORLDS_PER_CAMPAIGN.get(str(Global.current_campaign), 8))
+	var w: int = clampi(int(Global.world_num) + delta_world, 1, world_max)
+	var l: int = clampi(int(Global.level_num) + delta_level, 1, LEVELS_PER_WORLD)
+	var path: String = "res://Scenes/Levels/" + str(Global.current_campaign) + "/World" + str(w) + "/" + str(w) + "-" + str(l) + ".tscn"
+	if not ResourceLoader.exists(path):
+		return
+	Global.world_num = w
+	Global.level_num = l
+	LevelTransition.level_to_transition_to = path
+	Level.first_load = true
+	Checkpoint.passed_checkpoints.clear()
+	SaveManager.write_save()
+	get_tree().paused = false
+	Global.transition_to_scene("res://Scenes/Levels/LevelTransition.tscn")
+
+
+# ---- 全关卡解锁 ----
+
 func unlock_all_levels() -> void:
 	var campaign: String = Global.current_campaign
 	var path: String = Global.config_path.path_join("saves/" + campaign + ".sav")
@@ -208,6 +291,40 @@ func _set_flag(key: String, on: bool) -> void:
 	_save_cfg()
 
 
+# ---------------------------------------------------------- CHEAT 按钮拖动
+
+func _on_toggle_down() -> void:
+	_dragging = true
+	_drag_moved = 0.0
+	_drag_offset = _toggle.position - get_viewport().get_mouse_position()
+
+
+func _on_toggle_up() -> void:
+	_dragging = false
+	if _drag_moved < 12.0 * _ui:
+		_on_toggle_pressed()
+
+
+func _input(event) -> void:
+	if not _dragging or _toggle == null:
+		return
+	var dragging_now := false
+	if event is InputEventScreenDrag:
+		dragging_now = true
+	elif event is InputEventMouseMotion and (event.button_mask & MOUSE_BUTTON_MASK_LEFT):
+		dragging_now = true
+	if not dragging_now:
+		return
+	var vs := get_viewport().get_visible_rect().size
+	var target: Vector2 = get_viewport().get_mouse_position() + _drag_offset
+	target.x = clampf(target.x, 0.0, maxf(0.0, vs.x - _toggle.size.x))
+	target.y = clampf(target.y, 0.0, maxf(0.0, vs.y - _toggle.size.y))
+	_drag_moved += (target - _toggle.position).length()
+	_toggle.position = target
+	if _panel != null:
+		_panel.position = Vector2(target.x, target.y + _toggle.size.y + 6 * _ui)
+
+
 # ---------------------------------------------------------------------- UI
 
 func _fs(x: int) -> int:
@@ -235,7 +352,8 @@ func _build_ui() -> void:
 	_toggle.custom_minimum_size = Vector2(TOGGLE_W, TOGGLE_H) * _ui
 	_toggle.size = Vector2(TOGGLE_W, TOGGLE_H) * _ui
 	_toggle.modulate = Color(1, 1, 1, 0.72)
-	_toggle.pressed.connect(_on_toggle_pressed)
+	_toggle.button_down.connect(_on_toggle_down)
+	_toggle.button_up.connect(_on_toggle_up)
 	root.add_child(_toggle)
 
 	_panel = PanelContainer.new()
@@ -266,27 +384,51 @@ func _build_ui() -> void:
 	title.theme = _theme
 	vb.add_child(title)
 	vb.add_child(_make_button("CLOSE", func() -> void: _panel.visible = false))
+	_sep(vb)
 
-	# ---- 开关 ----
+	# --- 持久化开关 ---
 	vb.add_child(_make_check("GOD MODE", god_mode, func(on: bool) -> void: _set_flag("god_mode", on)))
 	vb.add_child(_make_check("INF LIVES", inf_lives, func(on: bool) -> void: _set_flag("inf_lives", on)))
 	vb.add_child(_make_check("FREEZE TIME", freeze_time, func(on: bool) -> void: _on_freeze_toggled(on)))
+	vb.add_child(_make_check("STAR ALWAYS", star_mode, func(on: bool) -> void: _set_flag("star_mode", on)))
 	vb.add_child(_make_check("SUPER JUMP", super_jump, func(on: bool) -> void: _set_flag("super_jump", on)))
 	vb.add_child(_make_check("FAST RUN", fast_run, func(on: bool) -> void: _set_flag("fast_run", on)))
-	vb.add_child(_make_check("STAR ALWAYS", star_mode, func(on: bool) -> void: _set_flag("star_mode", on)))
 	vb.add_child(_make_check("NOCLIP", noclip, func(on: bool) -> void: _on_noclip_toggled(on)))
 	vb.add_child(_make_check("FREEZE ENEMIES", freeze_enemies, func(on: bool) -> void: _on_freeze_enemies_toggled(on)))
+	_sep(vb)
 
-	# ---- 一次性动作 ----
+	# --- 临时开关 ---
+	vb.add_child(_make_check("AUTO RUN", auto_run, func(on: bool) -> void: set_auto_run(on)))
+	_scale_btn = _make_button("SPEED NORMAL", func() -> void: set_slow_motion(not slow_motion))
+	vb.add_child(_scale_btn)
+	_sep(vb)
+
+	# --- 一次性动作 ---
 	vb.add_child(_make_button("POWER FIRE", func() -> void: set_power("Fire")))
 	vb.add_child(_make_button("POWER BIG", func() -> void: set_power("Big")))
 	vb.add_child(_make_button("HAMMER", func() -> void: give_hammer()))
 	vb.add_child(_make_button("+99 COINS", func() -> void: give_coins()))
 	vb.add_child(_make_button("+100 TIME", func() -> void: add_time()))
 	vb.add_child(_make_button("KILL ALL ENEMIES", func() -> void: kill_all_enemies()))
+	_sep(vb)
+
+	# --- 传送 / 跳关 ---
+	vb.add_child(_make_button("SET WAYPOINT", func() -> void: set_waypoint()))
+	vb.add_child(_make_button("GOTO WAYPOINT", func() -> void: goto_waypoint()))
+	vb.add_child(_make_button("WORLD -", func() -> void: warp_level(-1, 0)))
+	vb.add_child(_make_button("WORLD +", func() -> void: warp_level(1, 0)))
+	vb.add_child(_make_button("LEVEL -", func() -> void: warp_level(0, -1)))
+	vb.add_child(_make_button("LEVEL +", func() -> void: warp_level(0, 1)))
+	_sep(vb)
 
 	_unlock_btn = _make_button("UNLOCK ALL LEVELS", func() -> void: _on_unlock_pressed())
 	vb.add_child(_unlock_btn)
+
+
+func _sep(vb: VBoxContainer) -> void:
+	var s := HSeparator.new()
+	s.theme = _theme
+	vb.add_child(s)
 
 
 func _make_check(text: String, value: bool, cb: Callable) -> CheckButton:
@@ -325,7 +467,7 @@ func _on_noclip_toggled(on: bool) -> void:
 func _on_freeze_enemies_toggled(on: bool) -> void:
 	_set_flag("freeze_enemies", on)
 	if not on:
-		_apply_enemy_freeze()   # 解冻：把所有敌人进程恢复
+		_apply_enemy_freeze()
 
 
 func _on_unlock_pressed() -> void:
@@ -334,7 +476,7 @@ func _on_unlock_pressed() -> void:
 	if not _unlock_armed:
 		_unlock_armed = true
 		_unlock_btn.text = "TAP AGAIN TO CONFIRM"
-		await get_tree().create_timer(3.0).timeout
+		await get_tree().create_timer(3.0, true).timeout
 		if _unlock_armed:
 			_unlock_armed = false
 			_unlock_btn.text = "UNLOCK ALL LEVELS"
@@ -342,7 +484,7 @@ func _on_unlock_pressed() -> void:
 	_unlock_armed = false
 	unlock_all_levels()
 	_unlock_btn.text = "LEVELS OPENED"
-	await get_tree().create_timer(2.0).timeout
+	await get_tree().create_timer(2.0, true).timeout
 	if _unlock_btn != null:
 		_unlock_btn.text = "UNLOCK ALL LEVELS"
 
