@@ -34,3 +34,4 @@ func _probe(path: String, label: String) -> void:
 		print("    base_font = ", f.base_font)
 	if f is FontFile:
 		print("    fixed_size = ", f.fixed_size, " | fallbacks = ", f.fallbacks.size())
+// touch to trigger probe
