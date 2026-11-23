@@ -1,32 +1,30 @@
 extends CanvasLayer
-## 金手指 / Cheat panel  (autoload singleton: CheatManager)
+## 金手指面板（autoload 单例：CheatManager）
 ##
-## Design notes:
-## - Whole UI built in code; no .tscn edits.
-## - Duck typed on purpose: no `Player` type hints, so the autoload never forms a
-##   compile-time dependency cycle with `class_name Player` (Player.gd -> us only).
-## - Own compact Theme: the game's bitmap theme makes every row huge.
-## - UPPERCASE labels only: safest for the project's bitmap font.
-## - Combat toggles persist to user://cheats.cfg. Slow-motion / auto-run do NOT
-##   persist on purpose (a stale 0.5x game would be confusing).
+## 设计要点：
+## - UI 全部代码构建，不碰任何 .tscn。
+## - 鸭子类型：不写 `Player` 类型标注，避免 autoload 与 `class_name Player` 形成编译期循环依赖。
+## - 自带紧凑 Theme + 打包的中文字体（游戏自带像素字体没有中文）。
+## - 战斗类开关持久化到 user://cheats.cfg；自动跑/慢速不持久化。
 ##
-## Player.gd hooks:
+## Player.gd 挂点：
 ##   _physics_process() -> CheatManager.tick_player(self)
-##   damage()           -> early return when CheatManager.god_mode
-##   calculate_jump_height() -> multiplied by CheatManager.jump_multiplier
+##   damage()           -> 无敌模式下直接 return
+##   calculate_jump_height() -> 乘以 CheatManager.jump_multiplier
 
 const SPEED_MULTIPLIER := 2.0
 const MAX_LIVES := 99
-const FONT_BASE := 12
-const TOGGLE_W := 96
-const TOGGLE_H := 30
+const FONT_BASE := 13
+const TOGGLE_W := 108
+const TOGGLE_H := 32
 const PANEL_W := 268
 const CFG_PATH := "user://cheats.cfg"
-const LEVELS_VISITED_LEN := 52      # SaveManager.SAVE_TEMPLATE["LevelsVisited"] 长度
+const LEVELS_VISITED_LEN := 52
 const BOO_LEVELS_LEN := 8
 const WORLDS_PER_CAMPAIGN := {"SMB1": 8, "SMBLL": 13, "SMBS": 8, "SMBANN": 8}
 const LEVELS_PER_WORLD := 4
 const SLOW_TIME_SCALE := 0.5
+const FONT_PATH := "res://Scripts/Classes/Singletons/CheatFont.otf"
 
 var jump_multiplier := 2.0
 
@@ -58,7 +56,7 @@ var _enemy_tick := 0.0
 var _waypoint = null
 var _waypoint_tag := ""
 
-# 拖动 CHEAT 按钮
+# 拖动
 var _dragging := false
 var _drag_moved := 0.0
 var _drag_offset := Vector2.ZERO
@@ -88,7 +86,7 @@ func _process(delta: float) -> void:
 			_apply_enemy_freeze()
 
 
-## Called from Player._physics_process() every physics frame.
+## 由 Player._physics_process 每帧调用
 func tick_player(p) -> void:
 	if not is_instance_valid(p):
 		return
@@ -124,7 +122,7 @@ func _enemy_nodes() -> Array:
 	return out
 
 
-# ------------------------------------------------------------------ actions
+# ------------------------------------------------------------------ 动作
 
 func give_coins() -> void:
 	Global.coins = 99
@@ -171,7 +169,7 @@ func set_noclip(on: bool) -> void:
 			sm.transition_to("NoClip")
 	elif sm.is_state("NoClip"):
 		sm.transition_to("Normal")
-		p.can_hurt = true   # 上游 NoClip.exit() 把 can_hurt 写成 false
+		p.can_hurt = true
 
 
 # ---- 存点 / 回点 ----
@@ -209,16 +207,16 @@ func set_auto_run(on: bool) -> void:
 		Input.action_release("run_0")
 
 
-# ---- 慢动作 ----
+# ---- 慢速 ----
 
 func set_slow_motion(on: bool) -> void:
 	slow_motion = on
 	Engine.time_scale = SLOW_TIME_SCALE if on else 1.0
 	if _scale_btn != null:
-		_scale_btn.text = "SPEED SLOW" if on else "SPEED NORMAL"
+		_scale_btn.text = "速度：慢速" if on else "速度：正常"
 
 
-# ---- 关卡跳转 ----
+# ---- 跳关 ----
 
 func warp_level(delta_world: int, delta_level: int) -> void:
 	if Global.current_game_mode != Global.GameMode.CAMPAIGN:
@@ -292,7 +290,7 @@ func _set_flag(key: String, on: bool) -> void:
 	_save_cfg()
 
 
-# ---------------------------------------------------------- CHEAT 按钮拖动
+# ---------------------------------------------------------- 按钮拖动
 
 func _on_toggle_down() -> void:
 	_dragging = true
@@ -337,6 +335,9 @@ func _build_ui() -> void:
 	_ui = clampf(vs.y / 1080.0, 0.6, 1.4)
 	_theme = Theme.new()
 	_theme.default_font_size = _fs(FONT_BASE)
+	var f = load(FONT_PATH)
+	if f is Font:
+		_theme.default_font = f
 
 	var root := Control.new()
 	root.name = "CheatRoot"
@@ -346,7 +347,7 @@ func _build_ui() -> void:
 
 	_toggle = Button.new()
 	_toggle.name = "CheatToggle"
-	_toggle.text = "CHEAT"
+	_toggle.text = "金手指"
 	_toggle.theme = _theme
 	_toggle.focus_mode = Control.FOCUS_NONE
 	_toggle.position = Vector2(4, 4) * _ui
@@ -362,7 +363,7 @@ func _build_ui() -> void:
 	_panel.theme = _theme
 	_panel.visible = false
 	var panel_bg := StyleBoxFlat.new()
-	panel_bg.bg_color = Color(0.03, 0.03, 0.05, 0.92)
+	panel_bg.bg_color = Color(0.03, 0.03, 0.05, 0.95)
 	panel_bg.set_corner_radius_all(int(5 * _ui))
 	panel_bg.set_border_width_all(maxi(1, int(1 * _ui)))
 	panel_bg.border_color = Color(0.75, 0.75, 0.8, 0.9)
@@ -390,54 +391,55 @@ func _build_ui() -> void:
 	pad.add_child(vb)
 
 	var title := Label.new()
-	title.text = "CHEATS"
+	title.text = "金手指"
 	title.theme = _theme
 	vb.add_child(title)
+
 	var nav := HBoxContainer.new()
 	nav.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	nav.add_theme_constant_override("separation", _fs(2))
 	vb.add_child(nav)
-	nav.add_child(_make_button("PAGE UP", func() -> void: _page(-1)))
-	nav.add_child(_make_button("PAGE DN", func() -> void: _page(1)))
-	nav.add_child(_make_button("CLOSE", func() -> void: _panel.visible = false))
+	nav.add_child(_make_button("上一页", func() -> void: _page(-1)))
+	nav.add_child(_make_button("下一页", func() -> void: _page(1)))
+	nav.add_child(_make_button("关闭", func() -> void: _panel.visible = false))
 	_sep(vb)
 
 	# --- 持久化开关 ---
-	vb.add_child(_make_check("GOD MODE", god_mode, func(on: bool) -> void: _set_flag("god_mode", on)))
-	vb.add_child(_make_check("INF LIVES", inf_lives, func(on: bool) -> void: _set_flag("inf_lives", on)))
-	vb.add_child(_make_check("FREEZE TIME", freeze_time, func(on: bool) -> void: _on_freeze_toggled(on)))
-	vb.add_child(_make_check("STAR ALWAYS", star_mode, func(on: bool) -> void: _set_flag("star_mode", on)))
-	vb.add_child(_make_check("SUPER JUMP", super_jump, func(on: bool) -> void: _set_flag("super_jump", on)))
-	vb.add_child(_make_check("FAST RUN", fast_run, func(on: bool) -> void: _set_flag("fast_run", on)))
-	vb.add_child(_make_check("NOCLIP", noclip, func(on: bool) -> void: _on_noclip_toggled(on)))
-	vb.add_child(_make_check("FREEZE ENEMIES", freeze_enemies, func(on: bool) -> void: _on_freeze_enemies_toggled(on)))
+	vb.add_child(_make_check("无敌模式", god_mode, func(on: bool) -> void: _set_flag("god_mode", on)))
+	vb.add_child(_make_check("无限命", inf_lives, func(on: bool) -> void: _set_flag("inf_lives", on)))
+	vb.add_child(_make_check("冻结时间", freeze_time, func(on: bool) -> void: _on_freeze_toggled(on)))
+	vb.add_child(_make_check("无敌星", star_mode, func(on: bool) -> void: _set_flag("star_mode", on)))
+	vb.add_child(_make_check("超级跳", super_jump, func(on: bool) -> void: _set_flag("super_jump", on)))
+	vb.add_child(_make_check("加速跑", fast_run, func(on: bool) -> void: _set_flag("fast_run", on)))
+	vb.add_child(_make_check("穿墙", noclip, func(on: bool) -> void: _on_noclip_toggled(on)))
+	vb.add_child(_make_check("冻结敌人", freeze_enemies, func(on: bool) -> void: _on_freeze_enemies_toggled(on)))
 	_sep(vb)
 
 	# --- 临时开关 ---
-	vb.add_child(_make_check("AUTO RUN", auto_run, func(on: bool) -> void: set_auto_run(on)))
-	_scale_btn = _make_button("SPEED NORMAL", func() -> void: set_slow_motion(not slow_motion))
+	vb.add_child(_make_check("自动跑", auto_run, func(on: bool) -> void: set_auto_run(on)))
+	_scale_btn = _make_button("速度：正常", func() -> void: set_slow_motion(not slow_motion))
 	vb.add_child(_scale_btn)
 	_sep(vb)
 
 	# --- 一次性动作 ---
-	vb.add_child(_make_button("POWER FIRE", func() -> void: set_power("Fire")))
-	vb.add_child(_make_button("POWER BIG", func() -> void: set_power("Big")))
-	vb.add_child(_make_button("HAMMER", func() -> void: give_hammer()))
-	vb.add_child(_make_button("+99 COINS", func() -> void: give_coins()))
-	vb.add_child(_make_button("+100 TIME", func() -> void: add_time()))
-	vb.add_child(_make_button("KILL ALL ENEMIES", func() -> void: kill_all_enemies()))
+	vb.add_child(_make_button("变火焰", func() -> void: set_power("Fire")))
+	vb.add_child(_make_button("变大", func() -> void: set_power("Big")))
+	vb.add_child(_make_button("锤子", func() -> void: give_hammer()))
+	vb.add_child(_make_button("+99 金币", func() -> void: give_coins()))
+	vb.add_child(_make_button("+100 时间", func() -> void: add_time()))
+	vb.add_child(_make_button("清空敌人", func() -> void: kill_all_enemies()))
 	_sep(vb)
 
 	# --- 传送 / 跳关 ---
-	vb.add_child(_make_button("SET WAYPOINT", func() -> void: set_waypoint()))
-	vb.add_child(_make_button("GOTO WAYPOINT", func() -> void: goto_waypoint()))
-	vb.add_child(_make_button("WORLD -", func() -> void: warp_level(-1, 0)))
-	vb.add_child(_make_button("WORLD +", func() -> void: warp_level(1, 0)))
-	vb.add_child(_make_button("LEVEL -", func() -> void: warp_level(0, -1)))
-	vb.add_child(_make_button("LEVEL +", func() -> void: warp_level(0, 1)))
+	vb.add_child(_make_button("存点", func() -> void: set_waypoint()))
+	vb.add_child(_make_button("回点", func() -> void: goto_waypoint()))
+	vb.add_child(_make_button("上一世界", func() -> void: warp_level(-1, 0)))
+	vb.add_child(_make_button("下一世界", func() -> void: warp_level(1, 0)))
+	vb.add_child(_make_button("上一关", func() -> void: warp_level(0, -1)))
+	vb.add_child(_make_button("下一关", func() -> void: warp_level(0, 1)))
 	_sep(vb)
 
-	_unlock_btn = _make_button("UNLOCK ALL LEVELS", func() -> void: _on_unlock_pressed())
+	_unlock_btn = _make_button("解锁全部关卡", func() -> void: _on_unlock_pressed())
 	vb.add_child(_unlock_btn)
 
 
@@ -497,18 +499,18 @@ func _on_unlock_pressed() -> void:
 		return
 	if not _unlock_armed:
 		_unlock_armed = true
-		_unlock_btn.text = "TAP AGAIN TO CONFIRM"
+		_unlock_btn.text = "再点一次确认"
 		await get_tree().create_timer(3.0, true).timeout
 		if _unlock_armed:
 			_unlock_armed = false
-			_unlock_btn.text = "UNLOCK ALL LEVELS"
+			_unlock_btn.text = "解锁全部关卡"
 		return
 	_unlock_armed = false
 	unlock_all_levels()
-	_unlock_btn.text = "LEVELS OPENED"
+	_unlock_btn.text = "已解锁全部关卡"
 	await get_tree().create_timer(2.0, true).timeout
 	if _unlock_btn != null:
-		_unlock_btn.text = "UNLOCK ALL LEVELS"
+		_unlock_btn.text = "解锁全部关卡"
 
 
 func _on_toggle_pressed() -> void:
