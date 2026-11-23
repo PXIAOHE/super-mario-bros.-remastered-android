@@ -1,0 +1,56 @@
+name: font-probe
+
+on:
+  workflow_dispatch:
+
+env:
+  GODOT_VERSION: "4.4"
+
+jobs:
+  probe:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    container:
+      image: barichello/godot-ci:4.4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Preflight (curl + libstdc++)
+        run: |
+          apt-get update -qq || true
+          DEBIAN_FRONTEND=noninteractive apt-get install -y -qq curl unzip ca-certificates software-properties-common >/dev/null 2>&1 || true
+          add-apt-repository -y ppa:ubuntu-toolchain-r/test >/dev/null 2>&1 || true
+          apt-get update -qq || true
+          for i in 1 2 3 4 5 6; do
+            if DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --only-upgrade libstdc++6; then break; fi
+            sleep 10; apt-get update -qq || true
+          done
+          grep -ac 'GLIBCXX_3.4.32' /usr/lib/x86_64-linux-gnu/libstdc++.so.6 || true
+          godot --version
+
+      - name: Download official export templates
+        run: |
+          curl -fsSL --retry 3 -o /tmp/templates.tpz \
+            "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_export_templates.tpz"
+          rm -rf /tmp/tpl && mkdir -p /tmp/tpl
+          unzip -q -o /tmp/templates.tpz -d /tmp/tpl
+          TPLDIR="$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable"
+          rm -rf "$TPLDIR"; mkdir -p "$TPLDIR"
+          cp -v /tmp/tpl/templates/android_source.zip "$TPLDIR/"
+
+      - name: Import resources
+        run: |
+          godot --headless --import > /tmp/import.log 2>&1 || true
+          tail -15 /tmp/import.log || true
+          echo "imported: $(ls .godot/imported 2>/dev/null | wc -l)"
+          echo "--- 关注 PixelFont / CheatFont 的导入产物 ---"
+          ls -la .godot/imported | grep -iE 'PixelFont|CheatFont|Font\.fnt' || echo "(无匹配)"
+
+      - name: Font probe
+        run: |
+          godot --headless --path . --script res://tools/font_probe.gd > /tmp/probe.log 2>&1 || true
+          echo "=============== PROBE OUTPUT ==============="
+          sed -n '/FONT PROBE START/,$p' /tmp/probe.log || cat /tmp/probe.log
