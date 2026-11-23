@@ -68,6 +68,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_load_cfg()
 	_build_ui()
+	call_deferred("_apply_saved_hi_res")
 
 
 func _process(delta: float) -> void:
@@ -219,6 +220,16 @@ func set_slow_motion(on: bool) -> void:
 
 # ---- 高清画面：等价于游戏设置里的 Size=铺满屏幕 ----
 
+func _apply_saved_hi_res() -> void:
+	if not hi_res:
+		return
+	for i in 20:
+		await get_tree().process_frame
+		if get_tree().root.get_node_or_null("Wrapper/CenterContainer") != null:
+			break
+	set_hi_res(true)
+
+
 func set_hi_res(on: bool) -> void:
 	hi_res = on
 	var cc = get_tree().root.get_node_or_null("Wrapper/CenterContainer")
@@ -231,6 +242,7 @@ func set_hi_res(on: bool) -> void:
 	if vpc != null:
 		vpc.set_deferred("size", Vector2(w, vpc.size.y))
 	Settings.file.video.size = 2 if on else 0
+	_save_cfg()
 
 
 # ---- 跳关 ----
@@ -279,7 +291,7 @@ func unlock_all_levels() -> void:
 
 const _BOOL_KEYS := [
 	"god_mode", "inf_lives", "freeze_time", "super_jump",
-	"fast_run", "star_mode", "noclip", "freeze_enemies",
+	"fast_run", "star_mode", "noclip", "freeze_enemies", "hi_res",
 ]
 
 
@@ -294,6 +306,7 @@ func _load_cfg() -> void:
 	star_mode = bool(_cfg.get_value("cheats", "star_mode", false))
 	noclip = bool(_cfg.get_value("cheats", "noclip", false))
 	freeze_enemies = bool(_cfg.get_value("cheats", "freeze_enemies", false))
+	hi_res = bool(_cfg.get_value("cheats", "hi_res", true))
 
 
 func _save_cfg() -> void:
