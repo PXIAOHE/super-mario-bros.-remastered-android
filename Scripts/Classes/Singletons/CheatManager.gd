@@ -66,6 +66,7 @@ func _ready() -> void:
 	layer = 128
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_load_cfg()
+	_install_cjk_fallback()
 	_build_ui()
 
 
@@ -325,6 +326,33 @@ func _input(event) -> void:
 
 
 # ---------------------------------------------------------------------- UI
+
+## 给游戏自带字体挂上中文字体回退：像素字体只有 ASCII，缺字时自动落到 CJK 子集。
+func _install_cjk_fallback() -> void:
+	var cjk = load(FONT_PATH)
+	if not (cjk is Font):
+		return
+	var used := {}
+	for setting_key in ["gui/theme/custom_font", "gui/theme/custom"]:
+		var path = ProjectSettings.get_setting(setting_key, "")
+		if not (path is String) or path == "":
+			continue
+		var res = load(path)
+		if res is Theme:
+			_attach_fallback(res.default_font, cjk, used)
+		elif res is FontFile:
+			_attach_fallback(res, cjk, used)
+	ThemeDB.fallback_font = cjk
+
+
+func _attach_fallback(font, cjk: Font, used: Dictionary) -> void:
+	if not (font is FontFile) or used.has(font):
+		return
+	var arr: Array[Font] = []
+	arr.append(cjk)
+	font.fallbacks = arr
+	used[font] = true
+
 
 func _fs(x: int) -> int:
 	return int(max(9.0, float(x) * _ui))
