@@ -1,0 +1,85 @@
+name: android-cheat
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ cheat ]
+
+env:
+  GODOT_VERSION: 4.4.stable
+  EXPORT_NAME: smb1r-cheat
+
+jobs:
+  export_android:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    container:
+      image: barichello/godot-ci:4.4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Probe environment
+        run: |
+          echo "HOME=$HOME"
+          godot --version || true
+          env | grep -iE 'android|java|gradle|godot' || true
+          ls -la /root/.local/share/godot/export_templates/ || true
+          ls -la ~/.local/share/godot/export_templates/ || true
+          ls -d "$ANDROID_HOME" "$ANDROID_SDK_ROOT" 2>/dev/null || true
+          java -version || true
+
+      - name: Setup export templates
+        run: |
+          mkdir -p "$HOME/.local/share/godot/export_templates"
+          for d in /root/.local/share/godot/export_templates /usr/local/share/godot/export_templates /usr/share/godot/export_templates; do
+            if [ -d "$d/${GODOT_VERSION}.stable" ] && [ "$d" != "$HOME/.local/share/godot/export_templates" ]; then
+              ln -sfn "$d/${GODOT_VERSION}.stable" "$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable"
+              echo "linked from $d"
+            fi
+          done
+          ls -la "$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable" | head -20
+
+      - name: Install Android build template
+        run: |
+          TPL="$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable/android_source.zip"
+          ls -la "$TPL"
+          mkdir -p android/build
+          unzip -q -o "$TPL" -d android/build
+          touch android/build/.gdignore
+          find android/build -maxdepth 1 | head -30
+
+      - name: Debug keystore
+        run: |
+          mkdir -p "$HOME/.android"
+          if [ ! -f "$HOME/.android/debug.keystore" ]; then
+            keytool -keyalg RSA -genkeypair -alias androiddebugkey -keypass android \
+              -keystore "$HOME/.android/debug.keystore" -storepass android \
+              -dname "CN=Android Debug,O=Android,C=US" -validity 9999 -deststoretype pkcs12
+          fi
+          ls -la "$HOME/.android/debug.keystore"
+
+      - name: Export APK
+        run: |
+          mkdir -p build
+          godot --headless --verbose --export-debug "Android" "build/${EXPORT_NAME}.apk" 2>&1 | tail -120
+          ls -la build/ || true
+
+      - name: Verify APK
+        run: |
+          set -e
+          ls -la build/
+          test -f "build/${EXPORT_NAME}.apk"
+          APK="build/${EXPORT_NAME}.apk"
+          "$ANDROID_HOME/build-tools/"*/apksigner verify --print-certs "$APK" || true
+          echo "--- 关键条目 ---"
+          unzip -l "$APK" | grep -E 'libgodot_android|CheatManager|project.binary' | head -10
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: smb1r-cheat-apk
+          path: build/*.apk
+          retention-days: 7

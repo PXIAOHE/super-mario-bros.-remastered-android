@@ -37,6 +37,7 @@ BetterTerrain="*res://addons/better-terrain/BetterTerrain.gd"
 GameBanana="*res://Scripts/Classes/Singletons/GameBananaManager.gd"
 SpeedrunHandler="*res://Scripts/Classes/Singletons/SpeedrunHandler.gd"
 OnScreenControls="*res://Scenes/Prefabs/UI/OnScreenControls.tscn"
+CheatManager="*res://Scripts/Classes/Singletons/CheatManager.gd"
 
 [debug]
 

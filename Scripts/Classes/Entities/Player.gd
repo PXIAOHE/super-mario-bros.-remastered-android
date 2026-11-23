@@ -284,6 +284,7 @@ func editor_level_start() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	CheatManager.tick_player(self)
 	if Input.is_action_just_pressed("debug_reload"):
 		set_power_state_frame()
 
@@ -559,6 +560,8 @@ func handle_wing_flight(delta: float) -> void:
 		%Wings.get_node("AnimationPlayer").play("RESET")
 
 func damage() -> void:
+	if CheatManager.god_mode:
+		return
 	if can_hurt == false or is_invincible:
 		return
 	times_hit += 1
@@ -863,7 +866,10 @@ func jump() -> void:
 	has_jumped = true
 
 func calculate_jump_height() -> float: # Thanks wye love you xxx
-	return -(JUMP_HEIGHT + JUMP_INCR * int(abs(velocity.x) / 25))
+	var jump_height := -(JUMP_HEIGHT + JUMP_INCR * int(abs(velocity.x) / 25))
+	if CheatManager.super_jump:
+		jump_height *= CheatManager.jump_multiplier
+	return jump_height
 
 const SMOKE_PARTICLE = preload("res://Scenes/Prefabs/Particles/SmokeParticle.tscn")
 
