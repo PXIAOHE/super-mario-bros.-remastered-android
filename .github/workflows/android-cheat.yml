@@ -78,6 +78,14 @@ jobs:
           fi
           ls -la "$HOME/.android/debug.keystore"
 
+      - name: Import resources
+        run: |
+          godot --headless --import > /tmp/import.log 2>&1 || true
+          echo "=========== IMPORT TAIL ==========="
+          tail -40 /tmp/import.log || true
+          echo "imported files: $(ls .godot/imported 2>/dev/null | wc -l)"
+          test -d .godot/imported
+
       - name: Export APK
         run: |
           mkdir -p build
