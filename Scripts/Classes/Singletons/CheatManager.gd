@@ -20,7 +20,7 @@ const MAX_LIVES := 99
 const FONT_BASE := 12
 const TOGGLE_W := 96
 const TOGGLE_H := 30
-const PANEL_W := 240
+const PANEL_W := 268
 const CFG_PATH := "user://cheats.cfg"
 const LEVELS_VISITED_LEN := 52      # SaveManager.SAVE_TEMPLATE["LevelsVisited"] 长度
 const BOO_LEVELS_LEN := 8
@@ -361,6 +361,12 @@ func _build_ui() -> void:
 	_panel.name = "CheatPanel"
 	_panel.theme = _theme
 	_panel.visible = false
+	var panel_bg := StyleBoxFlat.new()
+	panel_bg.bg_color = Color(0.03, 0.03, 0.05, 0.92)
+	panel_bg.set_corner_radius_all(int(5 * _ui))
+	panel_bg.set_border_width_all(maxi(1, int(1 * _ui)))
+	panel_bg.border_color = Color(0.75, 0.75, 0.8, 0.9)
+	_panel.add_theme_stylebox_override("panel", panel_bg)
 	_panel.position = Vector2(4, TOGGLE_H + 8) * _ui
 	root.add_child(_panel)
 
@@ -368,6 +374,7 @@ func _build_ui() -> void:
 	var scroll: ScrollContainer = _scroll
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.scroll_deadzone = 10
+	scroll.get_v_scroll_bar().custom_minimum_size = Vector2(_fs(9), 0)
 	scroll.custom_minimum_size = Vector2(PANEL_W * _ui, minf(vs.y * 0.72, 620 * _ui))
 	_panel.add_child(scroll)
 
@@ -392,7 +399,7 @@ func _build_ui() -> void:
 	vb.add_child(nav)
 	nav.add_child(_make_button("PAGE UP", func() -> void: _page(-1)))
 	nav.add_child(_make_button("PAGE DN", func() -> void: _page(1)))
-	vb.add_child(_make_button("CLOSE", func() -> void: _panel.visible = false))
+	nav.add_child(_make_button("CLOSE", func() -> void: _panel.visible = false))
 	_sep(vb)
 
 	# --- 持久化开关 ---
