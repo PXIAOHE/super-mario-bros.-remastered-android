@@ -46,6 +46,7 @@ var slow_motion := false
 
 var _player = null
 var _panel: PanelContainer = null
+var _scroll: ScrollContainer = null
 var _toggle: Button = null
 var _theme: Theme = null
 var _unlock_btn: Button = null
@@ -363,8 +364,10 @@ func _build_ui() -> void:
 	_panel.position = Vector2(4, TOGGLE_H + 8) * _ui
 	root.add_child(_panel)
 
-	var scroll := ScrollContainer.new()
+	_scroll = ScrollContainer.new()
+	var scroll: ScrollContainer = _scroll
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.scroll_deadzone = 10
 	scroll.custom_minimum_size = Vector2(PANEL_W * _ui, minf(vs.y * 0.72, 620 * _ui))
 	_panel.add_child(scroll)
 
@@ -383,6 +386,12 @@ func _build_ui() -> void:
 	title.text = "CHEATS"
 	title.theme = _theme
 	vb.add_child(title)
+	var nav := HBoxContainer.new()
+	nav.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	nav.add_theme_constant_override("separation", _fs(2))
+	vb.add_child(nav)
+	nav.add_child(_make_button("PAGE UP", func() -> void: _page(-1)))
+	nav.add_child(_make_button("PAGE DN", func() -> void: _page(1)))
 	vb.add_child(_make_button("CLOSE", func() -> void: _panel.visible = false))
 	_sep(vb)
 
@@ -423,6 +432,12 @@ func _build_ui() -> void:
 
 	_unlock_btn = _make_button("UNLOCK ALL LEVELS", func() -> void: _on_unlock_pressed())
 	vb.add_child(_unlock_btn)
+
+
+func _page(dir: int) -> void:
+	if _scroll == null:
+		return
+	_scroll.scroll_vertical += dir * int(maxf(48.0, _scroll.size.y * 0.8))
 
 
 func _sep(vb: VBoxContainer) -> void:
