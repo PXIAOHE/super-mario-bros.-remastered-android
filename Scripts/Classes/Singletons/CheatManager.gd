@@ -66,7 +66,6 @@ func _ready() -> void:
 	layer = 128
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_load_cfg()
-	_install_cjk_fallback()
 	_build_ui()
 
 
@@ -326,34 +325,6 @@ func _input(event) -> void:
 
 
 # ---------------------------------------------------------------------- UI
-
-## 把游戏主题里所有字体项换成打包的中文字体，并设置 ThemeDB 兜底字体。
-## 注意：绝不能对游戏自带的位图字体设置 FontFile.fallbacks —— 那会让位图字体丢字形，
-## 整个界面变成「十六进制方框」。只能整体替换主题里的字体资源。
-func _install_cjk_fallback() -> void:
-	var cjk = load(FONT_PATH)
-	if not (cjk is Font):
-		return
-	ThemeDB.fallback_font = cjk
-	var path = ProjectSettings.get_setting("gui/theme/custom", "")
-	if not (path is String) or path == "":
-		return
-	var th = load(path)
-	if th is Theme:
-		_replace_theme_fonts(th, cjk)
-
-
-func _replace_theme_fonts(th: Theme, cjk: Font) -> void:
-	var replaced := false
-	for prop in th.get_property_list():
-		var n: String = str(prop.get("name", ""))
-		if n.find("/fonts/") == -1:
-			continue
-		th.set(n, cjk)
-		replaced = true
-	if not replaced:
-		th.default_font = cjk
-
 
 func _fs(x: int) -> int:
 	return int(max(9.0, float(x) * _ui))
