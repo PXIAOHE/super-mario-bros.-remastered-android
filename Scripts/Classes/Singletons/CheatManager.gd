@@ -68,7 +68,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_load_cfg()
 	_build_ui()
-	call_deferred("_apply_saved_hi_res")
+	call_deferred("_repair_view_size")
 
 
 func _process(delta: float) -> void:
@@ -218,31 +218,41 @@ func set_slow_motion(on: bool) -> void:
 		_scale_btn.text = "速度：慢速" if on else "速度：正常"
 
 
-# ---- 高清画面：等价于游戏设置里的 Size=铺满屏幕 ----
-
-func _apply_saved_hi_res() -> void:
-	if not hi_res:
-		return
-	for i in 20:
-		await get_tree().process_frame
-		if get_tree().root.get_node_or_null("Wrapper/CenterContainer") != null:
-			break
-	set_hi_res(true)
-
+# ---- 高清画面（0=256 原始 / 1=384 高清）----
 
 func set_hi_res(on: bool) -> void:
 	hi_res = on
+	_apply_view_size(1 if on else 0)
+
+
+## 修改 SubViewport 宽度（0=256 原始，1=384 高清）。满屏档(2)会把画面压成一条，不用。
+func _apply_view_size(idx: int) -> void:
 	var cc = get_tree().root.get_node_or_null("Wrapper/CenterContainer")
 	var vp = get_tree().root.get_node_or_null("Wrapper/CenterContainer/SubViewportContainer/SubViewport")
 	var vpc = get_tree().root.get_node_or_null("Wrapper/CenterContainer/SubViewportContainer")
-	if cc == null or vp == null:
+	if vp == null:
 		return
-	var w: float = floor(cc.size.x) if on else 256.0
+	var w := 256.0
+	if idx == 1:
+		w = 384.0
+	elif idx == 2 and cc != null:
+		w = floor(cc.size.x)
 	vp.set_deferred("size", Vector2(w, vp.size.y))
 	if vpc != null:
 		vpc.set_deferred("size", Vector2(w, vpc.size.y))
-	Settings.file.video.size = 2 if on else 0
-	_save_cfg()
+	Settings.file.video.size = idx
+	hi_res = (idx != 0)
+
+
+## 启动时修复：之前把 Size 设成满屏(2)的存档会让画面压成一条，强制回到 384。
+func _repair_view_size() -> void:
+	for i in 20:
+		await get_tree().process_frame
+		if get_tree().root.get_node_or_null("Wrapper/CenterContainer/SubViewportContainer/SubViewport") != null:
+			break
+	var cur := int(Settings.file.video.size)
+	if cur == 2:
+		_apply_view_size(1)
 
 
 # ---- 跳关 ----
@@ -291,7 +301,7 @@ func unlock_all_levels() -> void:
 
 const _BOOL_KEYS := [
 	"god_mode", "inf_lives", "freeze_time", "super_jump",
-	"fast_run", "star_mode", "noclip", "freeze_enemies", "hi_res",
+	"fast_run", "star_mode", "noclip", "freeze_enemies",
 ]
 
 
@@ -306,7 +316,6 @@ func _load_cfg() -> void:
 	star_mode = bool(_cfg.get_value("cheats", "star_mode", false))
 	noclip = bool(_cfg.get_value("cheats", "noclip", false))
 	freeze_enemies = bool(_cfg.get_value("cheats", "freeze_enemies", false))
-	hi_res = bool(_cfg.get_value("cheats", "hi_res", true))
 
 
 func _save_cfg() -> void:
