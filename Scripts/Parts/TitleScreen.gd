@@ -89,7 +89,7 @@ func open_story_options() -> void:
 		await %QuestSelect.selected
 	$CanvasLayer/StoryMode/StoryOptions.selected_index = 1
 	%Options2.close()
-	$CanvasLayer/StoryMode/StoryOptions/HighScore.text = "Top- " + str(Global.high_score).pad_zeros(6)
+	$CanvasLayer/StoryMode/StoryOptions/HighScore.text = "最高 " + str(Global.high_score).pad_zeros(6)
 	$CanvasLayer/Options1.close()
 	$CanvasLayer/StoryMode/StoryOptions.open()
 
