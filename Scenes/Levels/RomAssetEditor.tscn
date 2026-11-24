@@ -49,10 +49,10 @@ size_flags_horizontal = 0
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = SubResource("SystemFont_potm2")
 theme_override_font_sizes/font_size = 12
-text = "No ROM path set...
+text = "尚未设置 ROM 路径…
 
-Open the game normally, and
-provide a ROM."
+请正常启动游戏，
+并提供一份 ROM。"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -141,7 +141,7 @@ theme_override_font_sizes/font_size = 8
 [node name="Update" type="Button" parent="Buttons/VBoxContainer2/JSONContainer"]
 layout_mode = 2
 focus_mode = 0
-text = "Update"
+text = "更新"
 
 [node name="CurSprite" type="Label" parent="Buttons/VBoxContainer2"]
 unique_name_in_owner = true
@@ -150,7 +150,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 8
 theme_override_fonts/font = SubResource("SystemFont_nik6x")
 theme_override_font_sizes/font_size = 12
-text = "CURRENT SPRITE:
+text = "当前精灵：
 MARIO.PNG"
 horizontal_alignment = 1
 
@@ -167,17 +167,17 @@ placeholder_text = "Palette"
 [node name="LastImage" type="Button" parent="Buttons/VBoxContainer"]
 layout_mode = 2
 focus_mode = 0
-text = "Last"
+text = "上一个"
 
 [node name="NextImage" type="Button" parent="Buttons/VBoxContainer"]
 layout_mode = 2
 focus_mode = 0
-text = "Next"
+text = "下一个"
 
 [node name="SaveImage" type="Button" parent="Buttons/VBoxContainer"]
 layout_mode = 2
 focus_mode = 0
-text = "Save"
+text = "保存"
 
 [node name="JSON" type="Button" parent="Buttons/VBoxContainer"]
 layout_mode = 2
