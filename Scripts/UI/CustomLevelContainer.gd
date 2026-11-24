@@ -68,7 +68,7 @@ func update_visuals() -> void:
 		%LevelIcon.region_rect = THEME_RECTS[level_theme]
 	
 	%LevelName.text = level_name if level_name != "" else "(Unnamed Level)"
-	%LevelAuthor.text = "By " + (level_author if level_author != "" else "Player")
+	%LevelAuthor.text = "作者 " + (level_author if level_author != "" else "玩家")
 	
 	%CampaignIcon.region_rect = CAMPAIGN_RECTS[game_style]
 	
