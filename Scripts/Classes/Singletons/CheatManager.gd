@@ -37,6 +37,7 @@ var fast_run := false
 var star_mode := false
 var noclip := false
 var freeze_enemies := false
+var infinite_flight := false
 
 # --- 不持久化 ---
 var auto_run := false
@@ -99,6 +100,8 @@ func tick_player(p) -> void:
 	var mult := SPEED_MULTIPLIER if fast_run else 1.0
 	p.WALK_SPEED = float(base["walk"]) * mult
 	p.RUN_SPEED = float(base["run"]) * mult
+	if infinite_flight:
+		p.flight_meter = 999.0
 	if noclip and not p.has_meta("cheat_noclip_applied"):
 		p.set_meta("cheat_noclip_applied", true)
 		set_noclip(true)
@@ -138,6 +141,17 @@ func set_power(power_name: String) -> void:
 	var p = _current_player()
 	if p != null:
 		p.get_power_up(power_name)
+
+
+## 给翅膀；lock=true 时锁住飞行能量（原版每帧 -delta，10 秒耗尽）
+func give_wings(lock: bool = true) -> void:
+	var p = _current_player()
+	if p == null:
+		return
+	infinite_flight = lock
+	p.wing_get()
+	if lock:
+		p.flight_meter = 999.0
 
 
 func give_hammer() -> void:
@@ -293,7 +307,7 @@ func unlock_all_levels() -> void:
 
 const _BOOL_KEYS := [
 	"god_mode", "inf_lives", "freeze_time", "super_jump",
-	"fast_run", "star_mode", "noclip", "freeze_enemies",
+	"fast_run", "star_mode", "noclip", "freeze_enemies", "infinite_flight",
 ]
 
 
@@ -308,6 +322,7 @@ func _load_cfg() -> void:
 	star_mode = bool(_cfg.get_value("cheats", "star_mode", false))
 	noclip = bool(_cfg.get_value("cheats", "noclip", false))
 	freeze_enemies = bool(_cfg.get_value("cheats", "freeze_enemies", false))
+	infinite_flight = bool(_cfg.get_value("cheats", "infinite_flight", false))
 
 
 func _save_cfg() -> void:
@@ -444,6 +459,7 @@ func _build_ui() -> void:
 	vb.add_child(_make_check("无限命", inf_lives, func(on: bool) -> void: _set_flag("inf_lives", on)))
 	vb.add_child(_make_check("冻结时间", freeze_time, func(on: bool) -> void: _on_freeze_toggled(on)))
 	vb.add_child(_make_check("无敌星", star_mode, func(on: bool) -> void: _set_flag("star_mode", on)))
+	vb.add_child(_make_check("无限飞行", infinite_flight, func(on: bool) -> void: _on_flight_toggled(on)))
 	vb.add_child(_make_check("超级跳", super_jump, func(on: bool) -> void: _set_flag("super_jump", on)))
 	vb.add_child(_make_check("加速跑", fast_run, func(on: bool) -> void: _set_flag("fast_run", on)))
 	vb.add_child(_make_check("穿墙", noclip, func(on: bool) -> void: _on_noclip_toggled(on)))
@@ -462,6 +478,7 @@ func _build_ui() -> void:
 	vb.add_child(_make_button("变火焰", func() -> void: set_power("Fire")))
 	vb.add_child(_make_button("变大", func() -> void: set_power("Big")))
 	vb.add_child(_make_button("锤子", func() -> void: give_hammer()))
+	vb.add_child(_make_button("翅膀(10秒)", func() -> void: give_wings(false)))
 	vb.add_child(_make_button("+99 金币", func() -> void: give_coins()))
 	vb.add_child(_make_button("+100 时间", func() -> void: add_time()))
 	vb.add_child(_make_button("清空敌人", func() -> void: kill_all_enemies()))
@@ -530,6 +547,14 @@ func _on_freeze_toggled(on: bool) -> void:
 func _on_noclip_toggled(on: bool) -> void:
 	_set_flag("noclip", on)
 	set_noclip(on)
+
+
+func _on_flight_toggled(on: bool) -> void:
+	_set_flag("infinite_flight", on)
+	if on:
+		give_wings(true)
+	else:
+		infinite_flight = false
 
 
 func _on_freeze_enemies_toggled(on: bool) -> void:
