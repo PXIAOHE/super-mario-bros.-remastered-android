@@ -367,8 +367,8 @@ values = ["VIDEO_HUD_STRETCHED", "VIDEO_HUD_CENTER"]
 [node name="FrameLimit" parent="PanelContainer/MarginContainer/VBoxContainer/Video" instance=ExtResource("3_dl6kk")]
 layout_mode = 2
 option_key = "frame_limit"
-title = "FRAME LIMIT"
-values = ["Unlimited", "60fps", "120fps", "144fps", "240fps"]
+title = "帧率上限"
+values = ["不限", "60帧", "120帧", "144帧", "240帧"]
 
 [node name="WindowChanger" type="Node" parent="PanelContainer/MarginContainer/VBoxContainer/Video"]
 script = ExtResource("5_hnwhb")
@@ -530,14 +530,14 @@ settings_category = "visuals"
 [node name="FirebarStyle" parent="PanelContainer/MarginContainer/VBoxContainer/Visuals" groups=["Options"] instance=ExtResource("3_dl6kk")]
 layout_mode = 2
 option_key = "firebar_style"
-title = "FIREBAR STYLE"
-values = ["Classic", "Modern"]
+title = "火焰棒样式"
+values = ["经典", "现代"]
 settings_category = "visuals"
 
 [node name="ExtraParticles" parent="PanelContainer/MarginContainer/VBoxContainer/Visuals" groups=["Options"] instance=ExtResource("3_dl6kk")]
 layout_mode = 2
 option_key = "extra_particles"
-title = "EXTRA EFFECTS"
+title = "额外特效"
 values = ["SETTING_OFF", "SETTING_ON"]
 settings_category = "visuals"
 
@@ -1016,7 +1016,7 @@ layout_mode = 2
 
 [node name="RegenROM" parent="PanelContainer/MarginContainer/VBoxContainer/Data" instance=ExtResource("9_t6b48")]
 layout_mode = 2
-title = "Reverify ROM"
+title = "重新校验 ROM"
 
 [node name="Control" type="Control" parent="PanelContainer"]
 custom_minimum_size = Vector2(24, 0)
