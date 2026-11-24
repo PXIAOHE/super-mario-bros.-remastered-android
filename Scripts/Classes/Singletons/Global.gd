@@ -441,7 +441,7 @@ func version_got(_result, response_code, _headers, body) -> void:
 
 func log_error(msg := "") -> void:
 	var error_message = $CanvasLayer/VBoxContainer/ErrorMessage.duplicate()
-	error_message.text = "Error - " + msg
+	error_message.text = "错误 - " + msg
 	error_message.visible = true
 	$CanvasLayer/VBoxContainer.add_child(error_message)
 	await get_tree().create_timer(10, false).timeout
@@ -449,7 +449,7 @@ func log_error(msg := "") -> void:
 
 func log_warning(msg := "") -> void:
 	var error_message = $CanvasLayer/VBoxContainer/Warning.duplicate()
-	error_message.text = "Warning - " + msg
+	error_message.text = "警告 - " + msg
 	error_message.visible = true
 	$CanvasLayer/VBoxContainer.add_child(error_message)
 	await get_tree().create_timer(10, false).timeout
