@@ -344,7 +344,7 @@ alignment = 1
 
 [node name="Label" type="Label" parent="BG/Border/Levels/VBoxContainer/LevelList/HBoxContainer/MarginContainer/ScrollContainer/MarginContainer/LevelContainers"]
 layout_mode = 2
-text = "No levels found!"
+text = "没有找到关卡！"
 horizontal_alignment = 1
 uppercase = true
 
@@ -394,7 +394,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-text = "this is text, isnt it so cool. WOWOWOWOWOWW"
+text = "关卡简介"
 autowrap_mode = 2
 uppercase = true
 
@@ -490,7 +490,7 @@ add_colon = false
 [node name="Page" parent="BG/Border/Levels/VBoxContainer/LSSBrowser/VBoxContainer" instance=ExtResource("22_13and")]
 unique_name_in_owner = true
 layout_mode = 2
-title = "Page"
+title = "页码"
 values = Array[String](["1"])
 
 [node name="HTTPRequest" type="HTTPRequest" parent="BG/Border/Levels/VBoxContainer/LSSBrowser"]
@@ -504,7 +504,7 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 size_flags_vertical = 6
-text = "Grabbing levels..."
+text = "正在获取关卡…"
 horizontal_alignment = 1
 uppercase = true
 
@@ -512,7 +512,7 @@ uppercase = true
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 6
-text = "Too many requests! Hang on a sec!"
+text = "请求太频繁！请稍候！"
 horizontal_alignment = 1
 autowrap_mode = 2
 uppercase = true
@@ -521,7 +521,7 @@ uppercase = true
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 6
-text = "Error getting levels! is LSS or your internet connection down?"
+text = "获取关卡失败！LSS 或你的网络是否正常？"
 horizontal_alignment = 1
 autowrap_mode = 2
 uppercase = true
@@ -599,7 +599,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-text = "this is text, isnt it so cool. WOWOWOWOWOWW"
+text = "关卡简介"
 autowrap_mode = 2
 uppercase = true
 
@@ -626,7 +626,7 @@ theme_override_styles/normal = ExtResource("8_psbt7")
 theme_override_styles/pressed = ExtResource("9_61olo")
 theme_override_styles/hover = ExtResource("9_61olo")
 theme_override_styles/focus = ExtResource("9_61olo")
-text = "PLAY"
+text = "游玩"
 
 [node name="ViewOnLSS" type="Button" parent="BG/Border/Levels/VBoxContainer/LSSLevelInfo/HBoxContainer"]
 unique_name_in_owner = true
