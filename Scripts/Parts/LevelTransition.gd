@@ -93,7 +93,7 @@ func _ready() -> void:
 		$BG/Control/WorldNum.hide()
 		%CustomLevelAuthor.show()
 		%CustomLevelName.show()
-		%CustomLevelAuthor.text = "By " + LevelEditor.level_author
+		%CustomLevelAuthor.text = "作者 " + LevelEditor.level_author
 		%CustomLevelName.text = LevelEditor.level_name
 		
 	await get_tree().create_timer(0.1, false).timeout
