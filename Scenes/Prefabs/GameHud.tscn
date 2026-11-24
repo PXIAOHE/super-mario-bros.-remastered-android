@@ -220,7 +220,7 @@ offset_bottom = 40.0
 
 [node name="Icon" type="AnimatedSprite2D" parent="Main/CoinCount/KeyCount"]
 process_mode = 1
-position = Vector2(0, -14)
+position = Vector2(0, -18)
 centered = false
 script = ExtResource("2_cbrve")
 do_offset = false
@@ -254,9 +254,9 @@ unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
 offset_left = 4.0
-offset_top = -20.0
+offset_top = 0.0
 offset_right = 36.0
-offset_bottom = -4.0
+offset_bottom = 8.0
 text = "*03"
 
 [node name="CoinIcon" type="AnimatedSprite2D" parent="Main/CoinCount"]
@@ -265,7 +265,7 @@ sprite_frames = SubResource("SpriteFrames_40ba1")
 autoplay = "default"
 frame_progress = 0.132926
 centered = false
-position = Vector2(0, 0)
+position = Vector2(0, -4)
 
 [node name="ResourceSetter" type="Node" parent="Main/CoinCount/CoinIcon" node_paths=PackedStringArray("node_to_affect")]
 script = ExtResource("3_jt73e")
@@ -290,9 +290,9 @@ unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
 offset_left = 4.0
-offset_top = -4.0
+offset_top = 0.0
 offset_right = 36.0
-offset_bottom = 12.0
+offset_bottom = 8.0
 text = "*00"
 
 [node name="RedCoins" type="Control" parent="Main"]
