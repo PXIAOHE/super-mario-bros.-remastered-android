@@ -28,7 +28,7 @@ layout_mode = 2
 size_flags_horizontal = 0
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("1_hofsk")
-text = "Play Game"
+text = "开始游戏"
 uppercase = true
 
 [node name="Options" type="Label" parent="."]
@@ -36,7 +36,7 @@ layout_mode = 2
 size_flags_horizontal = 0
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("1_hofsk")
-text = "settings"
+text = "设置"
 uppercase = true
 
 [node name="Label" type="Label" parent="."]
@@ -44,7 +44,7 @@ layout_mode = 2
 size_flags_horizontal = 0
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("1_hofsk")
-text = "Quit Game"
+text = "退出游戏"
 uppercase = true
 
 [node name="Buffer" type="Control" parent="."]
