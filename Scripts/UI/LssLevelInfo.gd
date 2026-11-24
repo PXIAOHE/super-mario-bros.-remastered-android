@@ -39,7 +39,7 @@ func reset_process() -> void:
 func setup_visuals(container: OnlineLevelContainer) -> void:
 	$Panel/AutoScrollContainer.scroll_pos = 0
 	$Panel/AutoScrollContainer.move_direction = -1
-	%LSSDescription.text = "Fetching Description..."
+	%LSSDescription.text = "正在获取简介…"
 	if saved_stuff.is_empty():
 		$Description.request(LEVEL_INFO_URL + container.level_id)
 	else:
