@@ -104,7 +104,7 @@ custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-text = "Replaces Blue Toad, with Yellow Toad"
+text = "用黄色奇诺比奥替换蓝色奇诺比奥"
 autowrap_mode = 2
 uppercase = true
 
