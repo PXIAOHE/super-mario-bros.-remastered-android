@@ -50,6 +50,7 @@ var _toggle: Button = null
 var _theme: Theme = null
 var _unlock_btn: Button = null
 var _scale_btn: Button = null
+var _size_btn: Button = null
 var _unlock_armed := false
 var _ui := 1.0
 var _cfg := ConfigFile.new()
@@ -68,7 +69,6 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_load_cfg()
 	_build_ui()
-	call_deferred("_repair_view_size")
 
 
 func _process(delta: float) -> void:
@@ -220,9 +220,10 @@ func set_slow_motion(on: bool) -> void:
 
 # ---- 高清画面（0=256 原始 / 1=384 高清）----
 
-func set_hi_res(on: bool) -> void:
-	hi_res = on
-	_apply_view_size(1 if on else 0)
+func set_hi_res(_on: bool) -> void:
+	# 三档循环：4:3(256) -> 16:10(384) -> 填充(铺满)
+	var cur := int(Settings.file.video.size)
+	_apply_view_size((cur + 1) % 3)
 
 
 ## 修改 SubViewport 宽度（0=256 原始，1=384 高清）。满屏档(2)会把画面压成一条，不用。
@@ -242,17 +243,8 @@ func _apply_view_size(idx: int) -> void:
 		vpc.set_deferred("size", Vector2(w, vpc.size.y))
 	Settings.file.video.size = idx
 	hi_res = (idx != 0)
-
-
-## 启动时修复：之前把 Size 设成满屏(2)的存档会让画面压成一条，强制回到 384。
-func _repair_view_size() -> void:
-	for i in 20:
-		await get_tree().process_frame
-		if get_tree().root.get_node_or_null("Wrapper/CenterContainer/SubViewportContainer/SubViewport") != null:
-			break
-	var cur := int(Settings.file.video.size)
-	if cur == 2:
-		_apply_view_size(1)
+	if _size_btn != null:
+		_size_btn.text = "画面尺寸：" + _size_name()
 
 
 # ---- 跳关 ----
@@ -460,7 +452,8 @@ func _build_ui() -> void:
 
 	# --- 临时开关 ---
 	vb.add_child(_make_check("自动跑", auto_run, func(on: bool) -> void: set_auto_run(on)))
-	vb.add_child(_make_check("高清画面", hi_res, func(on: bool) -> void: set_hi_res(on)))
+	_size_btn = _make_button("画面尺寸：" + _size_name(), func() -> void: set_hi_res(true))
+	vb.add_child(_size_btn)
 	_scale_btn = _make_button("速度：正常", func() -> void: set_slow_motion(not slow_motion))
 	vb.add_child(_scale_btn)
 	_sep(vb)
@@ -485,6 +478,13 @@ func _build_ui() -> void:
 
 	_unlock_btn = _make_button("解锁全部关卡", func() -> void: _on_unlock_pressed())
 	vb.add_child(_unlock_btn)
+
+
+func _size_name() -> String:
+	match int(Settings.file.video.size):
+		1: return "16:10"
+		2: return "填充"
+		_: return "4:3"
 
 
 func _page(dir: int) -> void:
