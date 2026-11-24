@@ -87,7 +87,7 @@ func handle_modern_hud() -> void:
 
 func handle_disco_combo() -> void:
 	%Combo.show()
-	%ComboAmount.text = "Combo*" + str(DiscoLevel.combo_amount)
+	%ComboAmount.text = "连击*" + str(DiscoLevel.combo_amount)
 	%ComboMeter.value = DiscoLevel.combo_meter
 	%ComboMeter.modulate = Color.PURPLE if DiscoLevel.combo_breaks <= 0 else Color.WHITE
 	%MedalIcon.region_rect.position.x = ("FDCBASP".find(DiscoLevel.current_rank) + 1) * 16
