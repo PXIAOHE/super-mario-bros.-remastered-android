@@ -98,12 +98,12 @@ MENU_WORLD_SELECT,,选择世界,Quel Monde,Wybierz Świat,bыбepиte mиp,Selec
 MENU_LEVEL_SELECT,,选择关卡,Quel Niveau,Wybierz Poziom,bыбepиte Уpobehь,Seleccionar Nivel,Seleziona livello,ＳＥＬＥＣＴ ＬＥＶＥＬ,Pumili ng Lebel,Level wählen,Level Seç,Pilih Level,Escolha o seu Nível,ステージをえらぶ
 MENU_QUEST_SELECT,,选择周目,Quel Quête,Wybierz Przygodę,bыбepиte kbect,Seleccionar búsqueda,Selezione missione,ＳＥＬＥＣＴ ＱＵＥＳＴ,Pumili ng Misyon,Abenteuer wählen,Görev Seç,Pilih Quest,Escolha a sua Missão,クエストをえらぶ
 MENU_CHARA_SELECT,,选择角色,Quel Personnage,Wybierz Postać,bыбepиte Пepcohaжa,Seleccionar Personaje,Selezione personaggio,ＳＥＬＥＣＴ ＣＨＡＲＡＣＴＥＲ,Pumili ng Karakter,Charakter wählen,Karakter Seç,Pilih Karakter,Escolha o seu Pesonagem,キャラクターをえらぶ
-QUEST_FIRST,,第一周目,Première Quête,Pierwsza Przygoda,Пepbый kbect,Primera Mision,Prima missione,ＦＩＲＳＴ ＱＵＥＳＴ,Unang Misyon,Erstes Abenteuer,Bİrİncİ Görev,Quest Pertama,Primeira Missão,クエスト1
-QUEST_SECOND,,第二周目,Deuxième Quête,Druga Przygoda,btopoй kbect,Segunda Mision,Seconda missione,ＳＥＣＯＮＤ ＱＵＥＳＴ,Ikalawang Misyon,Zweites Abenteuer,İkİncİ Görev,Quest Kedua,Segunda Missão,クエスト2
-CHAR_MARIO,,马力欧,Mario,Mario,mapиo,Mario,Mario,ＭＡＲＩＯ,Mario,Mario,Marİo,Mario,Mario,マリオ
-CHAR_LUIGI,,路易吉,Luigi,Luigi,ЛУиджи,Luigi,Luigi,ＬＵＩＧＩ,Luigi,Luigi,Luİgİ,Luigi,Luigi,ルイージ
-CHAR_TOAD,,奇诺比奥,Toad,Toad,toaд,Toad,Toad,ＴＯＡＤ,Kinopyo,Toad,Toad,Toad,Toad,キノピオ
-CHAR_TOADETTE,,奇诺比珂,Toadette,Toadette,toaдetta,Toadette,Toadette,ＴＯＡＤＥＴＴＥ,Kinopiko,Toadette,Toadette,Toadette,Toadette,キノピコ
+QUEST_FIRST,,First Quest,Première Quête,Pierwsza Przygoda,Пepbый kbect,Primera Mision,Prima missione,ＦＩＲＳＴ ＱＵＥＳＴ,Unang Misyon,Erstes Abenteuer,Bİrİncİ Görev,Quest Pertama,Primeira Missão,クエスト1
+QUEST_SECOND,,Second Quest,Deuxième Quête,Druga Przygoda,btopoй kbect,Segunda Mision,Seconda missione,ＳＥＣＯＮＤ ＱＵＥＳＴ,Ikalawang Misyon,Zweites Abenteuer,İkİncİ Görev,Quest Kedua,Segunda Missão,クエスト2
+CHAR_MARIO,,Mario,Mario,Mario,mapиo,Mario,Mario,ＭＡＲＩＯ,Mario,Mario,Marİo,Mario,Mario,マリオ
+CHAR_LUIGI,,Luigi,Luigi,Luigi,ЛУиджи,Luigi,Luigi,ＬＵＩＧＩ,Luigi,Luigi,Luİgİ,Luigi,Luigi,ルイージ
+CHAR_TOAD,,Toad,Toad,Toad,toaд,Toad,Toad,ＴＯＡＤ,Kinopyo,Toad,Toad,Toad,Toad,キノピオ
+CHAR_TOADETTE,,Toadette,Toadette,Toadette,toaдetta,Toadette,Toadette,ＴＯＡＤＥＴＴＥ,Kinopiko,Toadette,Toadette,Toadette,Toadette,キノピコ
 PAUSE_RESUME,,继续游戏,Continuer,Kontynuuj,Пpoдoлжиtь,Reanudar,Continua,ＲＥＳＵＭＥ,Magpatuloy,Fortsetzen,Devam Et,Melanjutkan,Retome ao Jogo,つづける
 PAUSE_RESTART,,重开本关,Recommencer,Zrestartuj Poziom,Пobtopиtь,Reiniciar nivel,Ricomincia,ＲＥＳＴＡＲＴ ＬＥＶＥＬ,Ulitin,Level neustarten,Yenİden Başla,Ulang Level,Recomeçar o Nível,リスタート
 PAUSE_QUIT,,返回主菜单,Quitter,Wyjdź do Menu,bыйtи b mehю,Salir al menú,Torna al menù,ＱＵＩＴ ＴＯ ＭＥＮＵ,Bumalik sa Menu,Zurück zum Hauptmenü,Menüye Çık,Keluar ke Menu,Sair para o Menu,メインメニュー
