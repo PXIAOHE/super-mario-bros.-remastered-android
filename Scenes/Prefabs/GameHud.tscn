@@ -174,7 +174,7 @@ custom_minimum_size = Vector2(12, 0)
 layout_mode = 2
 
 [node name="ScoreName" type="Control" parent="Main"]
-custom_minimum_size = Vector2(68, 20)
+custom_minimum_size = Vector2(80, 20)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
@@ -630,7 +630,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="TimeDisplay" type="Control" parent="Main"]
-custom_minimum_size = Vector2(32, 20)
+custom_minimum_size = Vector2(36, 20)
 layout_mode = 2
 size_flags_vertical = 8
 metadata/_edit_use_anchors_ = true
@@ -640,7 +640,7 @@ layout_mode = 1
 anchors_preset = -1
 offset_left = -4.0
 offset_top = -8.0
-offset_right = 36.0
+offset_right = 40.0
 offset_bottom = 8.0
 text = "HUD_TIME"
 uppercase = true
