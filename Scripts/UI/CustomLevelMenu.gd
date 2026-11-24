@@ -125,7 +125,7 @@ func show_lss_level_info(container: OnlineLevelContainer) -> void:
 	%SelectedOnlineLevel.setup_visuals()
 	LevelEditor.level_name = container.level_name
 	LevelEditor.level_author = container.level_author
-	%LSSDescription.text = "Fetching Description..."
+	%LSSDescription.text = "正在获取简介…"
 	$BG/Border/Levels/VBoxContainer/LSSBrowser.hide()
 	%LSSLevelInfo.show()
 	await get_tree().physics_frame
