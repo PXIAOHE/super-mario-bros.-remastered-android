@@ -23,7 +23,7 @@ metadata/_custom_type_script = "uid://bcqr1v25ygedb"
 [node name="FileDialog" type="FileDialog" parent="."]
 unique_name_in_owner = true
 oversampling_override = 1.0
-title = "Open a File"
+title = "打开文件"
 file_mode = 0
 access = 2
 filters = PackedStringArray("*.nes;NES ROMs")
@@ -162,7 +162,7 @@ alignment = 2
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 6
-placeholder_text = "Palette"
+placeholder_text = "调色板"
 
 [node name="LastImage" type="Button" parent="Buttons/VBoxContainer"]
 layout_mode = 2
