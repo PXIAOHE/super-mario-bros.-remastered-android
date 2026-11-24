@@ -44,7 +44,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1367824242]
 layout_mode = 2
 size_flags_horizontal = 4
-text = "YOUR RESULTS"
+text = "你的成绩"
 
 [node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer/Label" unique_id=1977156132]
 layout_mode = 1
@@ -62,7 +62,7 @@ layout_mode = 2
 
 [node name="Title" type="Label" parent="PanelContainer/VBoxContainer/Score" unique_id=168254607]
 layout_mode = 2
-text = "SCORE:"
+text = "分数："
 
 [node name="Score" type="Label" parent="PanelContainer/VBoxContainer/Score" unique_id=1767125717]
 unique_name_in_owner = true
@@ -76,7 +76,7 @@ layout_mode = 2
 [node name="Title" type="Label" parent="PanelContainer/VBoxContainer/Rank" unique_id=678139659]
 layout_mode = 2
 size_flags_vertical = 0
-text = "RANK:"
+text = "评级："
 
 [node name="Medal" type="NinePatchRect" parent="PanelContainer/VBoxContainer/Rank" unique_id=52736512]
 unique_name_in_owner = true
@@ -92,7 +92,7 @@ metadata/_custom_type_script = "uid://xem6lai3ufyj"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
-text = "FAIL!"
+text = "失败！"
 uppercase = true
 
 [node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer" unique_id=1051377687]
@@ -119,12 +119,12 @@ text = "RETRY"
 [node name="LevelSelect" parent="PanelContainer/VBoxContainer/MarginContainer/VBoxContainer" unique_id=84515105 instance=ExtResource("4_lxtk8")]
 unique_name_in_owner = true
 layout_mode = 2
-text = "LEVEL SELECT"
+text = "选择关卡"
 
 [node name="ReturnMenu" parent="PanelContainer/VBoxContainer/MarginContainer/VBoxContainer" unique_id=2105400998 instance=ExtResource("4_lxtk8")]
 unique_name_in_owner = true
 layout_mode = 2
-text = "RETURN TO MENU"
+text = "返回主菜单"
 
 [node name="WorldSelect" parent="." unique_id=2048757589 instance=ExtResource("6_lfyeb")]
 visible = false
