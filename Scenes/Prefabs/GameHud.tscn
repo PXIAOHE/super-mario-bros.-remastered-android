@@ -573,7 +573,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="LevelDisplay" type="Control" parent="Main"]
-custom_minimum_size = Vector2(40, 16)
+custom_minimum_size = Vector2(40, 20)
 layout_mode = 2
 size_flags_vertical = 8
 metadata/_edit_use_anchors_ = true
@@ -582,9 +582,9 @@ metadata/_edit_use_anchors_ = true
 layout_mode = 1
 anchors_preset = -1
 offset_left = -4.0
-offset_top = -4.0
+offset_top = -8.0
 offset_right = 44.0
-offset_bottom = 4.0
+offset_bottom = 8.0
 text = "HUD_WORLD"
 horizontal_alignment = 1
 uppercase = true
@@ -594,9 +594,9 @@ unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
 offset_left = 8.0
-offset_top = 8.0
+offset_top = 12.0
 offset_right = 40.0
-offset_bottom = 16.0
+offset_bottom = 20.0
 text = "1-1"
 uppercase = true
 
@@ -629,7 +629,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="TimeDisplay" type="Control" parent="Main"]
-custom_minimum_size = Vector2(32, 16)
+custom_minimum_size = Vector2(32, 20)
 layout_mode = 2
 size_flags_vertical = 8
 metadata/_edit_use_anchors_ = true
@@ -638,9 +638,9 @@ metadata/_edit_use_anchors_ = true
 layout_mode = 1
 anchors_preset = -1
 offset_left = -4.0
-offset_top = -4.0
+offset_top = -8.0
 offset_right = 36.0
-offset_bottom = 4.0
+offset_bottom = 8.0
 text = "HUD_TIME"
 uppercase = true
 
@@ -650,9 +650,9 @@ visible = false
 layout_mode = 1
 anchors_preset = -1
 offset_left = -12.0
-offset_top = 8.0
+offset_top = 12.0
 offset_right = 40.0
-offset_bottom = 24.0
+offset_bottom = 28.0
 text = " 000"
 horizontal_alignment = 2
 uppercase = true
@@ -660,9 +660,9 @@ uppercase = true
 [node name="VBoxContainer" type="VBoxContainer" parent="Main/TimeDisplay/TimeLabel"]
 layout_mode = 0
 offset_left = -24.0
-offset_top = 8.0
+offset_top = 12.0
 offset_right = 56.0
-offset_bottom = 40.0
+offset_bottom = 44.0
 theme_override_constants/separation = -8
 alignment = 1
 
