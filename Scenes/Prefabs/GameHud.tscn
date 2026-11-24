@@ -170,11 +170,11 @@ grow_horizontal = 2
 theme_override_constants/separation = 0
 
 [node name="Buffer" type="Control" parent="Main"]
-custom_minimum_size = Vector2(24, 0)
+custom_minimum_size = Vector2(12, 0)
 layout_mode = 2
 
 [node name="ScoreName" type="Control" parent="Main"]
-custom_minimum_size = Vector2(80, 20)
+custom_minimum_size = Vector2(68, 20)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
@@ -186,7 +186,7 @@ layout_mode = 1
 anchors_preset = -1
 offset_left = -4.0
 offset_top = -8.0
-offset_right = 76.0
+offset_right = 64.0
 offset_bottom = 8.0
 text = "Mario"
 uppercase = true
