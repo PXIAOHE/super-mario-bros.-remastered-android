@@ -273,7 +273,7 @@ text = "◄"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 0
-text = "video"
+text = "画面"
 horizontal_alignment = 1
 uppercase = true
 
@@ -772,7 +772,7 @@ script = ExtResource("14_yvj4y")
 [node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/OnScreenControls"]
 layout_mode = 2
 size_flags_vertical = 10
-text = "TAP AND HOLD HERE TO RESET."
+text = "长按此处重置。"
 uppercase = true
 
 [node name="TouchScreenButton" type="TouchScreenButton" parent="PanelContainer/MarginContainer/VBoxContainer/OnScreenControls"]
@@ -850,7 +850,7 @@ script = SubResource("GDScript_ksnto")
 [node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/KeyboardControls"]
 layout_mode = 2
 size_flags_vertical = 10
-text = "PRESS F5 TO RESET BINDINGS."
+text = "按 F5 重置按键绑定。"
 uppercase = true
 
 [node name="Controller" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" node_paths=PackedStringArray("options")]
@@ -943,7 +943,7 @@ type = 1
 [node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/Controller"]
 layout_mode = 2
 size_flags_vertical = 10
-text = "TAP AND HOLD HERE TO RESET."
+text = "长按此处重置。"
 uppercase = true
 
 [node name="TouchScreenButton" type="TouchScreenButton" parent="PanelContainer/MarginContainer/VBoxContainer/Controller"]
