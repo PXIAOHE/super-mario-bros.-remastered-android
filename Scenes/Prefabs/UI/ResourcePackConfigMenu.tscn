@@ -44,7 +44,7 @@ scroll_container = NodePath("..")
 [node name="Title" type="Label" parent="Panel/ScrollContainer/Options"]
 layout_mode = 2
 size_flags_horizontal = 4
-text = "Configure Pack"
+text = "配置资源包"
 horizontal_alignment = 1
 uppercase = true
 
