@@ -180,7 +180,7 @@ offset_right = 0.08598328
 offset_bottom = 0.04801941
 shortcut = SubResource("Shortcut_5175m")
 shortcut_in_tooltip = false
-text = "BROWSE FILES..."
+text = "浏览文件…"
 autowrap_mode = 2
 
 [node name="Label" type="Label" parent="BG/Border/MarginContainer/DefaultText"]
@@ -190,7 +190,7 @@ anchor_right = 1.0
 offset_bottom = 16.0
 grow_horizontal = 2
 size_flags_vertical = 0
-text = "VERIFICATION REQUIRED!"
+text = "需要校验！"
 horizontal_alignment = 1
 autowrap_mode = 2
 
@@ -216,7 +216,7 @@ offset_right = -4.800003
 offset_bottom = -0.040000916
 grow_horizontal = 2
 grow_vertical = 2
-text = "PLEASE TAP THE SCREEN AND SELECT YOUR VANILLA WORLD \"SUPER MARIO BROS\" ROM."
+text = "请点击屏幕，选择你的原版《超级马力欧兄弟》ROM。"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
@@ -234,9 +234,9 @@ offset_top = -40.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_vertical = 8
-text = "INVALID ROM HEADER!
+text = "ROM 文件头无效！
 
-ARE YOU SURE THIS IS A VANILLA ROM OF SMB1?"
+你确定这是原版 SMB1 的 ROM 吗？"
 horizontal_alignment = 1
 autowrap_mode = 2
 
@@ -253,9 +253,9 @@ offset_top = -40.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_vertical = 8
-text = "ERROR EXTRACTING ROM!
+text = "提取 ROM 失败！
 
-ENSURE YOUR ROM ISN'T STORED IN A COMPRESSED FILE FORMAT!"
+请确认你的 ROM 没有被压缩打包。"
 horizontal_alignment = 1
 autowrap_mode = 2
 
@@ -272,9 +272,9 @@ offset_top = -40.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_vertical = 8
-text = "ERROR VERIFYING ROM!
+text = "校验 ROM 失败！
 
-ARE YOU SURE THIS IS A ROM IMAGE FILE?"
+你确定这是一个 ROM 镜像文件吗？"
 horizontal_alignment = 1
 autowrap_mode = 2
 
@@ -283,9 +283,9 @@ unique_name_in_owner = true
 visible = false
 modulate = Color(0, 1, 0, 1)
 layout_mode = 2
-text = "ROM VERIFIED! THANK YOU!
+text = "ROM 校验通过！谢谢！
 
-PROCEEDING..."
+正在继续…"
 horizontal_alignment = 1
 autowrap_mode = 2
 
