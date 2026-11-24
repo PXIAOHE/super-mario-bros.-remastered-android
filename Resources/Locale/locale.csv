@@ -284,27 +284,27 @@ DELETION_BOO,,删除「你 VS 幽灵」数据,Supprimer Données de Vous Contre 
 DELETION_ACHIEVEMENT,,删除成就数据,Supprimer Données des Succès,Usuń Dane Osiągnięć,Удaлиtь дahhыe дoctижehий,Eliminar datos de logros,Elimina dati degli obiettivi,ＤＥＬＥＴＥ ＡＣＨＩＥＶＥＭＥＮＴ ＤＡＴＡ,I-delete ang data ng mga Tropeo,Erfolge-Speicherdaten löschen,Başarı Verİlerİnİ Sİl,Hapus Data Achievement,Deletar Dados de Conquistas,トロフィーデータをさくじょする
 DELETION_ALL,,删除全部数据,Tout supprimer,Usuń Wszystko,Удaлиtь bcё,Eliminar todo,Elimina tutto,ＤＥＬＥＴＥ ＥＶＥＲＹＴＨＩＮＧ,I-delete ang kabuohang data,Alle Speicherdaten löschen,Herşeyİ Sİl,Hapus Semuanya,Deletar Tudo,すべてのデータをさくじょする
 CREDITS_SKIP,,按跳跃键跳过…,Appuyez sur Saut pour passer,Wciśnij Skok aby Pominąć,"haжmиte пpыжok, чtoбы пpoпУctиtь...",Pulse Saltar para omitir,Premi Salta per saltare...,ＰＲＥＳＳ ＪＵＭＰ ＴＯ ＳＫＩＰ...,Pindutin ang Jump para magpatuloy,Zum Überspringen Sprung-Taste drücken.,Atlamak İçİn Zıplayın...,Tekan Lompat untuk Melewati...,Aperte Pular para Pular,ジャンプキーでスキップ
-EDITOR_MAIN_CREATE_0,,New Level,Nouveau Niveau,Nowy Poziom,hobый Уpobehь,Neuvo nivel,Nuovo livello,ＮＥＷ ＬＥＶＥＬ,Bagong Lebel,Neues Level,Yenİ Level,Level Baru,Novo Nível,あたらたなステージ
-EDITOR_MAIN_CREATE_1,,Make a level…,Créer un niveau,Stwórz poziom,coздatь Уpobehь...,Crear un nivel...,Crea un livello...,ＭＡＫＥ Ａ ＬＥＶＥＬ…,Gumawa ng Lebel...,Erstelle ein Level.,Level Oluştur...,Buat level…,Crie um nível...,ステージをつくる
-EDITOR_MAIN_LIST_NOLEVEL,,No levels found!,Aucun Niveaux trouvés !,Nie znaleziono poziomów,Уpobheй he haйдeho!,¡No se han encontrado niveles!,Nessun livello trovato!,ＮＯ ＬＥＶＥＬＳ ＦＯＵＮＤ!,Walang makitang lebel...,Keine Level vorhanden!,Level Bulunamadı!,Tidak ada level yang ditemukan!,Nenhum nível encontrado!,ステージがみつからない！
-EDITOR_MAIN_LEVEL_PLAY,,Play,Jouer,Graj,Игpatь,Jugar,Gioca,ＰＬＡＹ,Play,Spielen,Oyna,Main,Jogar,あそぶ
-EDITOR_MAIN_LEVEL_EDIT,,Edit,Éditer,Edytuj,peдaktиpobatь,Editar,Modifica,ＥＤＩＴ,I-edit,Bearbeiten,Düzenle,Edit,Editar,へんしゅう
-EDITOR_MAIN_LEVEL_DELETE,,Delete,Supprimer,Usuń,Удaлиtь,Eliminar,Elimina,ＤＥＬＥＴＥ,I-delete,Löschen,Sİl,Hapus,Deletar,さくじょ
-EDITOR_MAIN_LEVEL_CONFIRM,,Confirm?,Confirmer ?,Potwierdzić?,Пoдtbepдиtь?,¿Confirmar?,Confermi?,ＣＯＮＦＩＲＭ?,I-confirm?,Bestätigen?,Onayla,Mengonfirmasi?,Confirmar?,かくにん？
-EDITOR_MAIN_OPEN_FOLDER,,Open Folder,Ouvrir Dossier,Otwórz Folder,otkpыtь пaпkУ,Abrir carpeta,Apri cartella,ＯＰＥＮ ＦＯＬＤＥＲ,Buksan ang folder,Ordner öffnen,Klasörü Aç,Buka Folder,Abrir Pasta,フォルダをひらく
-EDITOR_MAIN_REFRESH,,Refresh List,Rafraîchir Liste,Odśwież Listę,oбhobиtь лиct,Actualizar lista,Aggiorna lista,ＲＥＦＲＥＳＨ ＬＩＳＴ,i-refresh ang list,Liste aktualisieren,Lİsteyİ Yenİle,Perbarui Daftar,Recarregar Lista,リストをこうしん
-EDITOR_MAIN_LSS,,Browse LSS,Surfer sur LSS,Przeglądaj LSS,Пoиck b LSS,Explorar LSS,Esplora LSS,ＢＲＯＷＳＥ ＬＳＳ,Humanap sa LSS,LSS durchsuchen,LSS'ye Gözat,Jelajahi LSS,Pesquisa LSS,LSSをえつらんする
-EDITOR_LSS_SORT,,Sort:,Filtre:,Filtruj,coptиpobka:,Ordenar,Filtra:,ＳＯＲＴ:,Sort:,Sortieren:,Sırala:,Menyortir:,Organizar:,ならべかえる：
-EDITOR_LSS_SORT_FEATURED,,Featured,Mis en avant,Wyróżnione,pekomehдУemыe,Destacados,In evidenza,ＦＥＡＴＵＲＥＤ,Featured,Empfohlen,Öne Çıkan,Unggulan,Destaque,にんき
-EDITOR_LSS_SORT_RECENT,,Recent,Récent,Ostatnie,heдabhиe,Recientes,Più recente,ＲＥＣＥＮＴ,Bago ,Neu,Yenİ,Terkini,Recente,あたらしい
-EDITOR_LSS_SORT_DOWNLOADS,,Downloads,Téléchargements,Pobrane,ckaчиbahия,Descargas,Più scaricati,ＤＯＷＮＬＯＡＤＳ,mga nakadownload,Downloads,İndİrİlenler,Unduhan,Downloads,ダウンロードすう
-EDITOR_LSS_SORT_RATING,,Ratings,Notes,Najlepsze,oцehkи,Valoraciones,Valutazioni,ＲＡＴＩＮＧＳ,Ratings,Bewertungen,Derecelendİrmeler,Ratings,Classificações,とうひょうすう
-EDITOR_LSS_ORDER,,Order:,Ordre:,Kolejność,Пopядok:,Ordenar:,Ordine:,ＯＲＤＥＲ:,Order:,Reihenfolge:,Sıra:,Order:,Ordem:,じゅんじょ：
-EDITOR_LSS_ORDER_ASC,,Ascending,Croissant,Wzrastająca,Пo boзpactahию,Ascendente,Crescente,ＡＳＣＥＮＤＩＮＧ,Pataas,Aufsteigend,Artan Sırada,Menaikkan,Crescente,しょうじゅん
-EDITOR_LSS_ORDER_DEC,,Descending,Décroissant,Malejąca,Пo Убыbahию,Descendente,Decrescente,ＤＥＳＣＥＮＤＩＮＧ,Pababa,Absteigend,Azalan Sırada,Menurun,Decrescente,こうじゅん
-EDITOR_LSS_PAGE,,Page: {NUM},Page : {NUM},Strona: {NUM},ctpahицa: {NUM},Página: {NUM},Pagina: {NUM},ＰＡＧＥ: {ＮＵＭ},Pahina: {NUM},Seite: {NUM},Sayfa: {NUM},Halaman: {NUM},Página: {NUM},ページ：{NUM}
-EDITOR_LSS_DOWNLOAD,Make sure these are uppercase (godots a bit weird),DOWNLOAD,TÉLÉCHARGER,POBIERZ,УctahobИtЬ,DESCARGAR,SCARICA,ＤＯＷＮＬＯＡＤ,I-DOWNLOAD,HERUNTERLADEN,İNDİR,UNDUH,DOWNLOAD,ダウンロード
-EDITOR_LSS_OPEN_PAGE,Opens the level page on LSS,OPEN LSS,OUVRIR LSS,OTWÓRZ LSS,otkpЫtЬ LSS,ABRIR LSS,APRI LSS,ＯＰＥＮ ＬＳＳ,BUKSAN ANG LSS,IM BROWSER ÖFFNEN,LSS'Yİ AÇ,BUKA LSS,ABRIR LSS,LSSをひらく
+EDITOR_MAIN_CREATE_0,,新建关卡,Nouveau Niveau,Nowy Poziom,hobый Уpobehь,Neuvo nivel,Nuovo livello,ＮＥＷ ＬＥＶＥＬ,Bagong Lebel,Neues Level,Yenİ Level,Level Baru,Novo Nível,あたらたなステージ
+EDITOR_MAIN_CREATE_1,,制作关卡…,Créer un niveau,Stwórz poziom,coздatь Уpobehь...,Crear un nivel...,Crea un livello...,ＭＡＫＥ Ａ ＬＥＶＥＬ…,Gumawa ng Lebel...,Erstelle ein Level.,Level Oluştur...,Buat level…,Crie um nível...,ステージをつくる
+EDITOR_MAIN_LIST_NOLEVEL,,没有找到关卡！,Aucun Niveaux trouvés !,Nie znaleziono poziomów,Уpobheй he haйдeho!,¡No se han encontrado niveles!,Nessun livello trovato!,ＮＯ ＬＥＶＥＬＳ ＦＯＵＮＤ!,Walang makitang lebel...,Keine Level vorhanden!,Level Bulunamadı!,Tidak ada level yang ditemukan!,Nenhum nível encontrado!,ステージがみつからない！
+EDITOR_MAIN_LEVEL_PLAY,,开始,Jouer,Graj,Игpatь,Jugar,Gioca,ＰＬＡＹ,Play,Spielen,Oyna,Main,Jogar,あそぶ
+EDITOR_MAIN_LEVEL_EDIT,,编辑,Éditer,Edytuj,peдaktиpobatь,Editar,Modifica,ＥＤＩＴ,I-edit,Bearbeiten,Düzenle,Edit,Editar,へんしゅう
+EDITOR_MAIN_LEVEL_DELETE,,删除,Supprimer,Usuń,Удaлиtь,Eliminar,Elimina,ＤＥＬＥＴＥ,I-delete,Löschen,Sİl,Hapus,Deletar,さくじょ
+EDITOR_MAIN_LEVEL_CONFIRM,,确认？,Confirmer ?,Potwierdzić?,Пoдtbepдиtь?,¿Confirmar?,Confermi?,ＣＯＮＦＩＲＭ?,I-confirm?,Bestätigen?,Onayla,Mengonfirmasi?,Confirmar?,かくにん？
+EDITOR_MAIN_OPEN_FOLDER,,打开文件夹,Ouvrir Dossier,Otwórz Folder,otkpыtь пaпkУ,Abrir carpeta,Apri cartella,ＯＰＥＮ ＦＯＬＤＥＲ,Buksan ang folder,Ordner öffnen,Klasörü Aç,Buka Folder,Abrir Pasta,フォルダをひらく
+EDITOR_MAIN_REFRESH,,刷新列表,Rafraîchir Liste,Odśwież Listę,oбhobиtь лиct,Actualizar lista,Aggiorna lista,ＲＥＦＲＥＳＨ ＬＩＳＴ,i-refresh ang list,Liste aktualisieren,Lİsteyİ Yenİle,Perbarui Daftar,Recarregar Lista,リストをこうしん
+EDITOR_MAIN_LSS,,浏览 LSS,Surfer sur LSS,Przeglądaj LSS,Пoиck b LSS,Explorar LSS,Esplora LSS,ＢＲＯＷＳＥ ＬＳＳ,Humanap sa LSS,LSS durchsuchen,LSS'ye Gözat,Jelajahi LSS,Pesquisa LSS,LSSをえつらんする
+EDITOR_LSS_SORT,,排序：,Filtre:,Filtruj,coptиpobka:,Ordenar,Filtra:,ＳＯＲＴ:,Sort:,Sortieren:,Sırala:,Menyortir:,Organizar:,ならべかえる：
+EDITOR_LSS_SORT_FEATURED,,精选,Mis en avant,Wyróżnione,pekomehдУemыe,Destacados,In evidenza,ＦＥＡＴＵＲＥＤ,Featured,Empfohlen,Öne Çıkan,Unggulan,Destaque,にんき
+EDITOR_LSS_SORT_RECENT,,最新,Récent,Ostatnie,heдabhиe,Recientes,Più recente,ＲＥＣＥＮＴ,Bago ,Neu,Yenİ,Terkini,Recente,あたらしい
+EDITOR_LSS_SORT_DOWNLOADS,,下载量,Téléchargements,Pobrane,ckaчиbahия,Descargas,Più scaricati,ＤＯＷＮＬＯＡＤＳ,mga nakadownload,Downloads,İndİrİlenler,Unduhan,Downloads,ダウンロードすう
+EDITOR_LSS_SORT_RATING,,评分,Notes,Najlepsze,oцehkи,Valoraciones,Valutazioni,ＲＡＴＩＮＧＳ,Ratings,Bewertungen,Derecelendİrmeler,Ratings,Classificações,とうひょうすう
+EDITOR_LSS_ORDER,,顺序：,Ordre:,Kolejność,Пopядok:,Ordenar:,Ordine:,ＯＲＤＥＲ:,Order:,Reihenfolge:,Sıra:,Order:,Ordem:,じゅんじょ：
+EDITOR_LSS_ORDER_ASC,,升序,Croissant,Wzrastająca,Пo boзpactahию,Ascendente,Crescente,ＡＳＣＥＮＤＩＮＧ,Pataas,Aufsteigend,Artan Sırada,Menaikkan,Crescente,しょうじゅん
+EDITOR_LSS_ORDER_DEC,,降序,Décroissant,Malejąca,Пo Убыbahию,Descendente,Decrescente,ＤＥＳＣＥＮＤＩＮＧ,Pababa,Absteigend,Azalan Sırada,Menurun,Decrescente,こうじゅん
+EDITOR_LSS_PAGE,,第 {NUM} 页,Page : {NUM},Strona: {NUM},ctpahицa: {NUM},Página: {NUM},Pagina: {NUM},ＰＡＧＥ: {ＮＵＭ},Pahina: {NUM},Seite: {NUM},Sayfa: {NUM},Halaman: {NUM},Página: {NUM},ページ：{NUM}
+EDITOR_LSS_DOWNLOAD,Make sure these are uppercase (godots a bit weird),下载,TÉLÉCHARGER,POBIERZ,УctahobИtЬ,DESCARGAR,SCARICA,ＤＯＷＮＬＯＡＤ,I-DOWNLOAD,HERUNTERLADEN,İNDİR,UNDUH,DOWNLOAD,ダウンロード
+EDITOR_LSS_OPEN_PAGE,Opens the level page on LSS,打开 LSS,OUVRIR LSS,OTWÓRZ LSS,otkpЫtЬ LSS,ABRIR LSS,APRI LSS,ＯＰＥＮ ＬＳＳ,BUKSAN ANG LSS,IM BROWSER ÖFFNEN,LSS'Yİ AÇ,BUKA LSS,ABRIR LSS,LSSをひらく
 RESOURCE_PACK_WARNING,,关卡中途更换资源包会导致金币等数据异常+,"CHANGER LES PACKS DE RESSOURCES EN PLEIN NIVEAU FERA RÉAPPARAÎTRE LES PIÈCES ET LES BLOCS. C'EST UN BUG DE GODOT, QUE JE NE PEUX PAS CORRIGER. DÉSOLÉ.","ZMIANA PACZEK ZASOBÓW PODCZAS POZIOMU SPOWODUJE POWRÓT MONET I BLOKÓW. TO BŁĄD, KTÓREGO NIE MOGĘ NAPRAWIĆ. PRZEPRASZAM.","ИЗmehehИe pecУpc Пakob ПocpeДИ УpobhЯ ПpИbeДet k bocctahobЛehИЮ mohet И БЛokob. Эto oШИБka ГoДota, kotopУЮ Я he moГУ ИcПpabИtЬ. ИЗbИhИte.",,,,,AUFGRUND EINES GODOT-BUGS WERDEN MÜNZEN UND BLÖCKE BEIM ÄNDERN EINES PACKS RESPAWNEN.,"KAYNAK PAKETLERİNİ LEVELİN ORTASINDA DEĞİŞTİRMEK ALTIN VE BLOKLARIN YENİDEN DOĞMASINA NEDEN OLACAKTIR. BU, BENİM DÜZELTEMEDİĞİM BİR GODOT HATASIDIR. ÜZGÜNÜM.","MENGGANTI PAKET RESOURCE DI TENGAH LEVEL AKAN MENYEBABKAN KOIN + BLOK RESPAWN. INI BUG GODOT, YANG TIDAK BISA SAYA PERBAIKI. MAAF.","MUDAR PACOTES DE RECURSO ENQUNTO ESTÁ EM UM NÍVEL VAI CAUSAR MOEDAS + BLOCOS RESETAREM. ESSE É UM BUG DO GODOT, QUE EU NÃO POSSO CONSERTAR. DESCULPA.",ゲームプレイちゅうに　リソースパックを　へんこうすると、もんだいが　はっけいする　ことがある。
 RESOURCE_PACK_CREATE,,创建新资源包,,Stwórz nową paczkę zasobów,coздatь hobый pecуpc Пak,Crear nuevo paquete de recursos,Crea un nuovo pacchetto di risorse,,,Neues Ressourcenpaket erstellen,YENİ KAYNAK PAKETİ OLUŞTUR,Buat paket resource baru,Criar novo pacote de recursos,あたらしいリソースパック
 LEVEL_TITLE,,{NAME}　作者：{AUTHOR},{NAME} par {AUTHOR},{NAME} przez {AUTHOR},{NAME} ot {AUTHOR},{NOMBRE} Por {AUTOR},{NAME} Fatto da {AUTHOR},{ＮＡＭＥ} ＢＹ {ＡＵＴＨＯＲ},{NAME} ni {AUTHOR},{NAME} von {AUTHOR},{AUTHOR} Tarafından {NAME},{NAME} Oleh {AUTHOR},{NAME} Por {AUTHOR},{AUTHOR}による「{NAME}」
